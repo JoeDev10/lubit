@@ -2,7 +2,7 @@
 // CONFIGURACIÓN — editá solo estas dos líneas
 // =============================================
 const WHATSAPP_NUMBER = '5491112345678';
-const SHEETS_CSV_URL = ''; // Pegá aquí la URL de Google Sheets cuando la tengas
+const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqOXq_4et5S8zU1ytsX1KzbixP6PyJDYp25_I5_OaDYCVOk11DRukT2BjgC7bnVVzSS_5sXydj7Sq8/pub?output=csv';
 
 // =============================================
 
@@ -108,21 +108,60 @@ function parseCSV(text) {
   });
 }
 
+function crearCarrusel(fotos) {
+  if (!fotos.length) return `<div class="carousel-placeholder"><i class="fa-solid fa-mobile-screen-button"></i></div>`;
+
+  const slides = fotos.map((url, i) =>
+    `<img src="${url}" alt="foto ${i + 1}" class="carousel-slide${i === 0 ? ' active' : ''}" loading="lazy">`
+  ).join('');
+
+  const dots = fotos.length > 1 ? `<div class="carousel-dots">${fotos.map((_, i) =>
+    `<span class="carousel-dot${i === 0 ? ' active' : ''}"></span>`
+  ).join('')}</div>` : '';
+
+  const arrows = fotos.length > 1 ? `
+    <button class="carousel-btn prev" aria-label="Anterior">&#8249;</button>
+    <button class="carousel-btn next" aria-label="Siguiente">&#8250;</button>
+  ` : '';
+
+  return `<div class="carousel">${arrows}<div class="carousel-track">${slides}</div>${dots}</div>`;
+}
+
+function initCarrusel(card) {
+  const carousel = card.querySelector('.carousel');
+  if (!carousel) return;
+
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const dots = carousel.querySelectorAll('.carousel-dot');
+  if (slides.length <= 1) return;
+
+  let current = 0;
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  carousel.querySelector('.prev').addEventListener('click', () => goTo(current - 1));
+  carousel.querySelector('.next').addEventListener('click', () => goTo(current + 1));
+}
+
 function crearCardProducto(p) {
   const badgeClass = p.badge === 'Hot' ? 'hot' : p.badge === 'Oferta' ? 'offer' : '';
   const badgeHTML = p.badge ? `<span class="product-badge ${badgeClass}">${p.badge}</span>` : '';
-  const icono = p.marca === 'apple' ? 'fa-brands fa-apple' : 'fa-solid fa-mobile-screen-button';
   const mensajeWA = encodeURIComponent(`Hola! Quiero consultar por el ${p.nombre}.`);
   const marcaLabel = p.marca.charAt(0).toUpperCase() + p.marca.slice(1);
+  const fotos = [p.foto1, p.foto2, p.foto3, p.foto4, p.foto5, p.foto6].filter(Boolean);
 
   const card = document.createElement('div');
   card.className = 'product-card';
   card.dataset.brand = p.marca;
   card.innerHTML = `
     ${badgeHTML}
-    <div class="product-img ${p.marca}">
-      <i class="${icono}"></i>
-    </div>
+    ${crearCarrusel(fotos)}
     <div class="product-info">
       <span class="brand-tag">${marcaLabel}</span>
       <h3>${p.nombre}</h3>
@@ -134,6 +173,7 @@ function crearCardProducto(p) {
       <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${mensajeWA}" target="_blank" class="btn btn-primary full-width">Consultar</a>
     </div>
   `;
+  initCarrusel(card);
   return card;
 }
 
@@ -160,7 +200,13 @@ async function cargarProductos() {
         precio: cols[3] || '',
         cuotas: cols[4] || '',
         badge: cols[5] || '',
-        disponible: (cols[6] || '').toUpperCase()
+        disponible: (cols[6] || '').toUpperCase(),
+        foto1: cols[7] || '',
+        foto2: cols[8] || '',
+        foto3: cols[9] || '',
+        foto4: cols[10] || '',
+        foto5: cols[11] || '',
+        foto6: cols[12] || '',
       }))
       .filter(p => p.disponible === 'SI' && p.nombre);
 

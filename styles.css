@@ -194,6 +194,20 @@ body {
 .product-img.motorola { background: linear-gradient(135deg, #003087, #00509e); }
 .product-img.xiaomi { background: linear-gradient(135deg, #ff6900, #ff8c00); }
 
+/* ===== CAROUSEL ===== */
+.carousel { position: relative; height: 220px; overflow: hidden; background: #f1f5f9; }
+.carousel-track { height: 100%; }
+.carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .3s ease; padding: 12px; }
+.carousel-slide.active { opacity: 1; }
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,.35); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 3; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+.carousel-btn:hover { background: rgba(0,0,0,.6); }
+.carousel-btn.prev { left: 8px; }
+.carousel-btn.next { right: 8px; }
+.carousel-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 3; }
+.carousel-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(0,0,0,.25); transition: background .2s; }
+.carousel-dot.active { background: var(--primary); }
+.carousel-placeholder { height: 220px; display: flex; align-items: center; justify-content: center; font-size: 80px; color: rgba(255,255,255,.5); background: linear-gradient(135deg, #1e293b, #334155); }
+
 .product-info { padding: 20px; }
 .brand-tag {
   display: inline-block; font-size: .75rem; font-weight: 700;
