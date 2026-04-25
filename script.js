@@ -28,17 +28,42 @@ filterBtns.forEach(btn => {
   });
 });
 
+// Número de WhatsApp del negocio (sin +, sin espacios)
+const WHATSAPP_NUMBER = '5491112345678';
+
+document.getElementById('whatsappFloat').href =
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola! Quiero hacer una consulta.')}`;
+
 // Formulario de contacto → abre WhatsApp
 document.getElementById('contactForm').addEventListener('submit', function (e) {
   e.preventDefault();
+
   const nombre = document.getElementById('nombre').value.trim();
   const telefono = document.getElementById('telefono').value.trim();
   const servicio = document.getElementById('servicio').value;
   const mensaje = document.getElementById('mensaje').value.trim();
 
-  const texto = `Hola! Mi nombre es *${nombre}*.\nNecesito: *${servicio || 'una consulta'}*.\n${mensaje ? 'Mensaje: ' + mensaje : ''}\nMi teléfono: ${telefono}`;
-  const url = `https://wa.me/5491112345678?text=${encodeURIComponent(texto)}`;
+  if (!servicio) {
+    document.getElementById('servicio').focus();
+    document.getElementById('servicio').style.borderColor = '#ef4444';
+    return;
+  }
+
+  const texto = `Hola! Mi nombre es *${nombre}*.\nNecesito: *${servicio}*.\n${mensaje ? 'Mensaje: ' + mensaje + '\n' : ''}Mi teléfono: ${telefono}`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
   window.open(url, '_blank');
+
+  this.reset();
+  document.getElementById('servicio').style.borderColor = '';
+
+  const btn = this.querySelector('button[type="submit"]');
+  const original = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Mensaje enviado!';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.disabled = false;
+  }, 3000);
 });
 
 // Smooth scroll para links del navbar

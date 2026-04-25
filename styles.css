@@ -259,8 +259,22 @@ body {
 .reviewer strong { display: block; font-size: .9rem; }
 .reviewer span { color: var(--gray-400); font-size: .8rem; }
 
+/* ===== NOSOTROS ===== */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.about-text .badge { margin-bottom: 16px; display: inline-block; }
+.about-text h2 { font-size: 2rem; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+.about-text p { color: var(--gray-500); line-height: 1.7; margin-bottom: 16px; }
+.about-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+.about-list li { display: flex; align-items: center; gap: 10px; color: var(--gray-600); font-weight: 500; }
+.about-list li i { color: var(--primary); font-size: 1rem; flex-shrink: 0; }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.about-stat-card { background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 16px; padding: 28px 20px; text-align: center; }
+.about-stat-number { display: block; font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+.about-stat-label { font-size: .85rem; color: var(--gray-400); font-weight: 500; }
+
 /* ===== CONTACT ===== */
 .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start; }
+.map-wrapper { margin-top: 48px; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.10); }
 .contact-info h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 28px; }
 .contact-item {
   display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;
@@ -362,6 +376,7 @@ body {
   .repairs-grid { grid-template-columns: 1fr; }
   .testimonials-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
   .steps-grid { flex-direction: column; align-items: center; }
   .step-arrow { display: none; }
   .footer-inner { grid-template-columns: 1fr; }
