@@ -93,7 +93,7 @@ iniciarFiltros();
 // CARGA DE PRODUCTOS DESDE GOOGLE SHEETS
 // =============================================
 function parseCSV(text) {
-  const lines = text.trim().split('\n');
+  const lines = text.trim().replace(/\r/g, '').split('\n');
   return lines.slice(1).map(line => {
     const cols = [];
     let current = '';
@@ -105,7 +105,7 @@ function parseCSV(text) {
     }
     cols.push(current.trim());
     return cols;
-  });
+  }).filter(cols => cols.some(c => c));
 }
 
 function crearCarrusel(fotos) {
