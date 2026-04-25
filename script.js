@@ -31,8 +31,9 @@ filterBtns.forEach(btn => {
 // Número de WhatsApp del negocio (sin +, sin espacios)
 const WHATSAPP_NUMBER = '5491112345678';
 
-document.getElementById('whatsappFloat').href =
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola! Quiero hacer una consulta.')}`;
+const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola! Quiero hacer una consulta.')}`;
+document.getElementById('whatsappFloat').href = waLink;
+document.getElementById('whatsappSocial').href = waLink;
 
 // Formulario de contacto → abre WhatsApp
 document.getElementById('contactForm').addEventListener('submit', function (e) {
