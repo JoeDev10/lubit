@@ -189,6 +189,7 @@ async function cargarProductos() {
 
   try {
     const res = await fetch(SHEETS_CSV_URL);
+    if (!res.ok) throw new Error(`Error ${res.status} al cargar la planilla`);
     const text = await res.text();
     const rows = parseCSV(text);
 
@@ -224,3 +225,19 @@ async function cargarProductos() {
 }
 
 cargarProductos();
+
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+document.getElementById('lightboxClose').addEventListener('click', () => lightbox.classList.remove('open'));
+lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+function abrirLightbox(src) {
+  lightboxImg.src = src;
+  lightbox.classList.add('open');
+}
+
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('carousel-slide')) abrirLightbox(e.target.src);
+});
