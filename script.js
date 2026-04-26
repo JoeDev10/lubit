@@ -244,15 +244,51 @@ document.querySelectorAll('.faq-question').forEach(btn => {
 // Lightbox
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
-document.getElementById('lightboxClose').addEventListener('click', () => lightbox.classList.remove('open'));
-lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+const lightboxCounter = document.getElementById('lightboxCounter');
 
-function abrirLightbox(src) {
-  lightboxImg.src = src;
-  lightbox.classList.add('open');
+let lightboxPhotos = [];
+let lightboxIndex = 0;
+
+function actualizarLightbox() {
+  lightboxImg.src = lightboxPhotos[lightboxIndex];
+  lightboxCounter.textContent = `${lightboxIndex + 1} / ${lightboxPhotos.length}`;
+  lightboxPrev.classList.toggle('hidden', lightboxPhotos.length <= 1);
+  lightboxNext.classList.toggle('hidden', lightboxPhotos.length <= 1);
+  lightboxCounter.style.display = lightboxPhotos.length <= 1 ? 'none' : '';
 }
 
+function abrirLightbox(src, card) {
+  const slides = card ? [...card.querySelectorAll('.carousel-slide')] : [];
+  lightboxPhotos = slides.length ? slides.map(s => s.src) : [src];
+  lightboxIndex = lightboxPhotos.indexOf(src);
+  if (lightboxIndex < 0) lightboxIndex = 0;
+  lightbox.classList.add('open');
+  actualizarLightbox();
+}
+
+lightboxPrev.addEventListener('click', () => {
+  lightboxIndex = (lightboxIndex - 1 + lightboxPhotos.length) % lightboxPhotos.length;
+  actualizarLightbox();
+});
+lightboxNext.addEventListener('click', () => {
+  lightboxIndex = (lightboxIndex + 1) % lightboxPhotos.length;
+  actualizarLightbox();
+});
+
+document.getElementById('lightboxClose').addEventListener('click', () => lightbox.classList.remove('open'));
+lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') lightbox.classList.remove('open');
+  if (e.key === 'ArrowLeft') { lightboxIndex = (lightboxIndex - 1 + lightboxPhotos.length) % lightboxPhotos.length; actualizarLightbox(); }
+  if (e.key === 'ArrowRight') { lightboxIndex = (lightboxIndex + 1) % lightboxPhotos.length; actualizarLightbox(); }
+});
+
 document.addEventListener('click', e => {
-  if (e.target.classList.contains('carousel-slide')) abrirLightbox(e.target.src);
+  if (e.target.classList.contains('carousel-slide')) {
+    const card = e.target.closest('.product-card');
+    abrirLightbox(e.target.src, card);
+  }
 });
