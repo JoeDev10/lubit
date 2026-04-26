@@ -1,7 +1,7 @@
 // =============================================
 // CONFIGURACIÓN — editá solo estas dos líneas
 // =============================================
-const WHATSAPP_NUMBER = '5491112345678';
+const WHATSAPP_NUMBER = '5491131706948';
 const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqOXq_4et5S8zU1ytsX1KzbixP6PyJDYp25_I5_OaDYCVOk11DRukT2BjgC7bnVVzSS_5sXydj7Sq8/pub?output=csv';
 
 // =============================================
