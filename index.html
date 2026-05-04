@@ -164,68 +164,8 @@
         <h2>Servicios de reparación</h2>
         <p>Técnicos certificados · Repuestos originales · Garantía por escrito</p>
       </div>
-      <div class="repairs-grid">
-
-        <div class="repair-card">
-          <div class="repair-icon">
-            <i class="fa-solid fa-display"></i>
-          </div>
-          <h3>Cambio de pantalla</h3>
-          <p>Pantallas originales y compatibles para todas las marcas.</p>
-          <span class="repair-price">Desde $15.000</span>
-          <a href="#contacto" class="btn btn-outline-white">Pedir turno</a>
-        </div>
-
-        <div class="repair-card">
-          <div class="repair-icon">
-            <i class="fa-solid fa-battery-full"></i>
-          </div>
-          <h3>Cambio de batería</h3>
-          <p>Recuperá la autonomía de tu equipo con batería nueva.</p>
-          <span class="repair-price">Desde $8.000</span>
-          <a href="#contacto" class="btn btn-outline-white">Pedir turno</a>
-        </div>
-
-        <div class="repair-card">
-          <div class="repair-icon">
-            <i class="fa-solid fa-plug"></i>
-          </div>
-          <h3>Conector de carga</h3>
-          <p>Solucionamos problemas de carga lenta o intermitente.</p>
-          <span class="repair-price">Desde $6.000</span>
-          <a href="#contacto" class="btn btn-outline-white">Pedir turno</a>
-        </div>
-
-        <div class="repair-card">
-          <div class="repair-icon">
-            <i class="fa-solid fa-camera"></i>
-          </div>
-          <h3>Reparación de cámara</h3>
-          <p>Reemplazamos cámaras frontales y traseras dañadas.</p>
-          <span class="repair-price">Desde $10.000</span>
-          <a href="#contacto" class="btn btn-outline-white">Pedir turno</a>
-        </div>
-
-        <div class="repair-card">
-          <div class="repair-icon">
-            <i class="fa-solid fa-droplet-slash"></i>
-          </div>
-          <h3>Daño por agua</h3>
-          <p>Diagnóstico y recuperación de equipos mojados o sumergidos.</p>
-          <span class="repair-price">Diagnóstico gratis</span>
-          <a href="#contacto" class="btn btn-outline-white">Pedir turno</a>
-        </div>
-
-        <div class="repair-card">
-          <div class="repair-icon">
-            <i class="fa-solid fa-microchip"></i>
-          </div>
-          <h3>Reparación de placa</h3>
-          <p>Microsoldadura y reparación de componentes a nivel board.</p>
-          <span class="repair-price">Presupuesto sin cargo</span>
-          <a href="#contacto" class="btn btn-outline-white">Pedir turno</a>
-        </div>
-
+      <div class="repairs-grid" id="repairsGrid">
+        <!-- cargado dinámicamente desde datos.json -->
       </div>
     </div>
   </section>
@@ -446,28 +386,28 @@
             <i class="fa-solid fa-location-dot"></i>
             <div>
               <strong>Dirección</strong>
-              <span>Av. Corrientes 1234, CABA</span>
+              <span id="infoDireccion">Av. Corrientes 1234, CABA</span>
             </div>
           </div>
           <div class="contact-item">
             <i class="fa-brands fa-whatsapp"></i>
             <div>
               <strong>WhatsApp</strong>
-              <span>+54 11 1234-5678</span>
+              <span id="infoWhatsapp">+54 11 3170-6948</span>
             </div>
           </div>
           <div class="contact-item">
             <i class="fa-solid fa-envelope"></i>
             <div>
               <strong>Email</strong>
-              <span>info@lubit.com.ar</span>
+              <span id="infoEmail">info@lubit.com.ar</span>
             </div>
           </div>
           <div class="contact-item">
             <i class="fa-solid fa-clock"></i>
             <div>
               <strong>Horario</strong>
-              <span>Lun–Sáb: 9:00 a 19:00</span>
+              <span id="infoHorario">Lun–Sáb: 9:00 a 19:00</span>
             </div>
           </div>
           <div class="social-links">
@@ -512,6 +452,7 @@
 
       <div class="map-wrapper">
         <iframe
+          id="mapaIframe"
           src="https://maps.google.com/maps?q=Av.+Corrientes+1234,+Buenos+Aires,+Argentina&t=&z=15&ie=UTF8&iwloc=&output=embed"
           width="100%"
           height="380"
@@ -556,6 +497,7 @@
     </div>
     <div class="footer-bottom">
       <p>© 2025 Lubit · Todos los derechos reservados</p>
+      <a href="admin.html" class="admin-lock" aria-label="Administración">🔒</a>
     </div>
   </footer>
 

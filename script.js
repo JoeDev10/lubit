@@ -6,6 +6,63 @@ const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqOXq_4
 
 // =============================================
 
+// =============================================
+// DATOS DINÁMICOS DESDE datos.json
+// =============================================
+async function cargarDatos() {
+  try {
+    const res = await fetch('datos.json?t=' + Date.now());
+    if (!res.ok) return;
+    const datos = await res.json();
+    if (datos.reparaciones) renderReparaciones(datos.reparaciones);
+    if (datos.contacto) renderContacto(datos.contacto);
+  } catch (e) {
+    // Si no se puede cargar, el HTML estático se mantiene
+  }
+}
+
+function renderReparaciones(reparaciones) {
+  const grid = document.getElementById('repairsGrid');
+  if (!grid) return;
+  grid.innerHTML = reparaciones.map(r => `
+    <div class="repair-card">
+      <div class="repair-icon"><i class="${r.icono}"></i></div>
+      <h3>${r.titulo}</h3>
+      <p>${r.descripcion}</p>
+      <span class="repair-price">${r.precio}</span>
+      <a href="#contacto" class="btn btn-outline-white">Pedir turno</a>
+    </div>
+  `).join('');
+}
+
+function renderContacto(contacto) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+  set('infoDireccion', contacto.direccion);
+  set('infoWhatsapp', contacto.whatsapp_display);
+  set('infoEmail', contacto.email);
+  set('infoHorario', contacto.horario);
+
+  if (contacto.whatsapp) {
+    const waBase = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent('Hola! Quiero hacer una consulta.')}`;
+    const floatBtn = document.getElementById('whatsappFloat');
+    if (floatBtn) floatBtn.href = waBase;
+    const socialBtn = document.getElementById('whatsappSocial');
+    if (socialBtn) socialBtn.href = waBase;
+  }
+
+  if (contacto.direccion) {
+    const mapa = document.getElementById('mapaIframe');
+    if (mapa) {
+      const q = encodeURIComponent(contacto.direccion + ', Buenos Aires, Argentina');
+      mapa.src = `https://maps.google.com/maps?q=${q}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    }
+  }
+}
+
+cargarDatos();
+
+// =============================================
+
 // Menú hamburguesa
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
