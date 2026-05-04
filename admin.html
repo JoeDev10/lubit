@@ -57,6 +57,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      font-family: inherit;
     }
     .btn-login:hover { background: #1d4ed8; }
     .login-error {
@@ -144,6 +145,7 @@
     }
     .admin-section h2 i { color: #2563eb; }
     .section-desc { color: #64748b; font-size: 0.85rem; margin-bottom: 22px; }
+    .section-desc a { color: #2563eb; }
 
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
@@ -200,6 +202,122 @@
     }
     .repair-price-input:focus { outline: none; border-color: #2563eb; }
 
+    /* ---- FOTOS ---- */
+    .loading-text { color: #64748b; font-size: 0.9rem; padding: 20px 0; }
+    .productos-fotos-list { display: flex; flex-direction: column; gap: 16px; }
+
+    .producto-foto-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .producto-foto-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .producto-foto-header strong { font-size: 0.95rem; flex: 1; }
+    .marca-tag {
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .badge-disponible {
+      background: #dcfce7;
+      color: #16a34a;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .badge-nodisponible {
+      background: #fef2f2;
+      color: #dc2626;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .fotos-inputs-list { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .foto-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .foto-num {
+      color: #94a3b8;
+      font-size: 0.8rem;
+      font-weight: 600;
+      width: 20px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .foto-preview {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+      background: #f1f5f9;
+    }
+    .foto-preview.empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #cbd5e1;
+      font-size: 1.2rem;
+    }
+    .foto-url-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: border-color .2s;
+      min-width: 0;
+    }
+    .foto-url-input:focus { outline: none; border-color: #2563eb; }
+    .btn-remove-foto {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color .2s;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .btn-remove-foto:hover { color: #ef4444; }
+    .btn-add-foto {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #2563eb;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: none;
+      border: 2px dashed #bfdbfe;
+      border-radius: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      font-family: inherit;
+      margin-top: 4px;
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-add-foto:hover { background: #eff6ff; border-color: #93c5fd; }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -218,7 +336,7 @@
       opacity: 0;
       transition: all .3s ease;
       z-index: 9999;
-      max-width: 360px;
+      max-width: 380px;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { background: #16a34a; }
@@ -300,8 +418,18 @@
     <div class="admin-section">
       <h2><i class="fa-solid fa-screwdriver-wrench"></i> Precios de reparaciones</h2>
       <p class="section-desc">Editá el precio de cada servicio. Ejemplos: "Desde $15.000", "Diagnóstico gratis", "Presupuesto sin cargo".</p>
-      <div class="repair-admin-list" id="repairsAdminList">
-        <!-- generado por JS -->
+      <div class="repair-admin-list" id="repairsAdminList"></div>
+    </div>
+
+    <!-- FOTOS DE PRODUCTOS -->
+    <div class="admin-section">
+      <h2><i class="fa-solid fa-images"></i> Fotos de productos</h2>
+      <p class="section-desc">
+        Para cada celular pegá los links de Imgur (hasta 6 fotos por producto).
+        <a href="https://imgur.com/upload" target="_blank">Subir foto a Imgur →</a>
+      </p>
+      <div id="fotosProductosList">
+        <p class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Cargando productos desde la planilla...</p>
       </div>
     </div>
 
@@ -315,6 +443,7 @@
   const REPO = 'joedev10/lubit';
   const FILE = 'datos.json';
   const TOKEN_KEY = 'lubit_admin_token';
+  const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqOXq_4et5S8zU1ytsX1KzbixP6PyJDYp25_I5_OaDYCVOk11DRukT2BjgC7bnVVzSS_5sXydj7Sq8/pub?output=csv';
 
   let datosActuales = null;
 
@@ -362,6 +491,7 @@
       if (!res.ok) return;
       datosActuales = await res.json();
       rellenarFormulario(datosActuales);
+      cargarProductosParaFotos(datosActuales.fotos_productos || {});
     } catch (e) {
       mostrarToast('No se pudo cargar datos.json', 'error');
     }
@@ -375,9 +505,7 @@
       setValue('adminEmail', datos.contacto.email);
       setValue('adminHorario', datos.contacto.horario);
     }
-    if (datos.reparaciones) {
-      renderRepairsAdmin(datos.reparaciones);
-    }
+    if (datos.reparaciones) renderRepairsAdmin(datos.reparaciones);
   }
 
   function setValue(id, val) {
@@ -386,8 +514,7 @@
   }
 
   function renderRepairsAdmin(repairs) {
-    const list = document.getElementById('repairsAdminList');
-    list.innerHTML = repairs.map((r, i) => `
+    document.getElementById('repairsAdminList').innerHTML = repairs.map((r, i) => `
       <div class="repair-admin-item">
         <div class="repair-icon-box"><i class="${r.icono}"></i></div>
         <div class="repair-info">
@@ -395,11 +522,170 @@
           <small>${r.descripcion}</small>
         </div>
         <input class="repair-price-input" type="text"
-               id="repairPrice_${i}"
-               value="${r.precio}"
+               id="repairPrice_${i}" value="${r.precio}"
                placeholder="Ej: Desde $15.000"/>
       </div>
     `).join('');
+  }
+
+  // ---- FOTOS DE PRODUCTOS ----
+  function parseCSVAdmin(text) {
+    const lines = text.trim().replace(/\r/g, '').split('\n');
+    return lines.slice(1).map(line => {
+      const cols = [];
+      let current = '', inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        if (line[i] === '"') { inQuotes = !inQuotes; }
+        else if (line[i] === ',' && !inQuotes) { cols.push(current.trim()); current = ''; }
+        else { current += line[i]; }
+      }
+      cols.push(current.trim());
+      return cols;
+    }).filter(cols => cols.some(c => c));
+  }
+
+  async function cargarProductosParaFotos(fotosGuardadas) {
+    const container = document.getElementById('fotosProductosList');
+    try {
+      const res = await fetch(SHEETS_URL + '&t=' + Date.now());
+      if (!res.ok) throw new Error();
+      const rows = parseCSVAdmin(await res.text());
+
+      const productos = rows
+        .filter(cols => cols[0])
+        .map(cols => ({
+          nombre: cols[0] || '',
+          marca: cols[1] || '',
+          disponible: (cols[6] || '').trim().toUpperCase()
+        }));
+
+      if (!productos.length) {
+        container.innerHTML = '<p class="loading-text">No se encontraron productos en la planilla.</p>';
+        return;
+      }
+
+      container.innerHTML = '';
+      const list = document.createElement('div');
+      list.className = 'productos-fotos-list';
+
+      productos.forEach(p => {
+        const fotos = fotosGuardadas[p.nombre] || [];
+        list.appendChild(crearCardFotos(p, fotos));
+      });
+
+      container.appendChild(list);
+    } catch {
+      container.innerHTML = '<p class="loading-text" style="color:#ef4444">No se pudo cargar la planilla. Verificá que esté pública.</p>';
+    }
+  }
+
+  function crearCardFotos(p, fotos) {
+    const card = document.createElement('div');
+    card.className = 'producto-foto-card';
+    card.dataset.nombre = p.nombre;
+
+    const badge = p.disponible === 'SI'
+      ? '<span class="badge-disponible">En venta</span>'
+      : '<span class="badge-nodisponible">No disponible</span>';
+
+    card.innerHTML = `
+      <div class="producto-foto-header">
+        <strong>${p.nombre}</strong>
+        <span class="marca-tag">${p.marca}</span>
+        ${badge}
+      </div>
+      <div class="fotos-inputs-list" id="fotosList_${slugify(p.nombre)}"></div>
+    `;
+
+    const list = card.querySelector('.fotos-inputs-list');
+
+    // Mostrar fotos existentes
+    (fotos.length ? fotos : ['']).forEach(url => agregarFilaFoto(list, url));
+
+    // Botón agregar
+    const btnAdd = document.createElement('button');
+    btnAdd.className = 'btn-add-foto';
+    btnAdd.type = 'button';
+    btnAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar foto';
+    btnAdd.onclick = () => {
+      if (list.querySelectorAll('.foto-input-row').length < 6) {
+        agregarFilaFoto(list, '');
+      } else {
+        mostrarToast('Máximo 6 fotos por producto', 'info');
+      }
+    };
+    list.appendChild(btnAdd);
+
+    return card;
+  }
+
+  function agregarFilaFoto(list, url) {
+    const btnAdd = list.querySelector('.btn-add-foto');
+    const index = list.querySelectorAll('.foto-input-row').length + 1;
+
+    const row = document.createElement('div');
+    row.className = 'foto-input-row';
+
+    const num = document.createElement('span');
+    num.className = 'foto-num';
+    num.textContent = index;
+
+    const preview = document.createElement('img');
+    preview.className = 'foto-preview';
+    preview.src = url || '';
+    preview.alt = '';
+    if (!url) preview.style.display = 'none';
+    preview.onerror = () => preview.style.display = 'none';
+
+    const input = document.createElement('input');
+    input.type = 'url';
+    input.className = 'foto-url-input';
+    input.value = url || '';
+    input.placeholder = 'https://i.imgur.com/...';
+    input.addEventListener('input', function () {
+      if (this.value) {
+        preview.src = this.value;
+        preview.style.display = 'block';
+        preview.onerror = () => preview.style.display = 'none';
+      } else {
+        preview.style.display = 'none';
+      }
+    });
+
+    const btnRemove = document.createElement('button');
+    btnRemove.type = 'button';
+    btnRemove.className = 'btn-remove-foto';
+    btnRemove.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    btnRemove.title = 'Quitar foto';
+    btnRemove.onclick = () => {
+      row.remove();
+      // Renumerar
+      list.querySelectorAll('.foto-num').forEach((n, i) => n.textContent = i + 1);
+    };
+
+    row.appendChild(num);
+    row.appendChild(preview);
+    row.appendChild(input);
+    row.appendChild(btnRemove);
+
+    if (btnAdd) list.insertBefore(row, btnAdd);
+    else list.appendChild(row);
+  }
+
+  function slugify(str) {
+    return str.replace(/[^a-zA-Z0-9]/g, '_');
+  }
+
+  function recopilarFotos() {
+    const fotos = {};
+    document.querySelectorAll('.producto-foto-card').forEach(card => {
+      const nombre = card.dataset.nombre;
+      const urls = [...card.querySelectorAll('.foto-url-input')]
+        .map(i => i.value.trim())
+        .filter(Boolean);
+      if (urls.length) fotos[nombre] = urls;
+    });
+    return fotos;
   }
 
   // ---- GUARDAR ----
@@ -424,18 +710,16 @@
         reparaciones: datosActuales.reparaciones.map((r, i) => ({
           ...r,
           precio: getVal(`repairPrice_${i}`) || r.precio
-        }))
+        })),
+        fotos_productos: recopilarFotos()
       };
 
-      // Obtener SHA actual del archivo
       const getRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
         headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
       });
       if (!getRes.ok) throw new Error('No se pudo acceder al archivo en GitHub');
-      const getJson = await getRes.json();
-      const sha = getJson.sha;
+      const sha = (await getRes.json()).sha;
 
-      // Subir el archivo actualizado
       const content = btoa(unescape(encodeURIComponent(JSON.stringify(nuevoDatos, null, 2))));
       const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
         method: 'PUT',
@@ -457,7 +741,7 @@
       }
 
       datosActuales = nuevoDatos;
-      mostrarToast('¡Guardado! Los cambios se verán en la página en ~1 minuto.', 'success');
+      mostrarToast('¡Guardado! Los cambios se verán en ~1 minuto.', 'success');
 
     } catch (e) {
       mostrarToast('Error: ' + e.message, 'error');
@@ -484,9 +768,7 @@
 
   // ---- INIT ----
   const savedToken = localStorage.getItem(TOKEN_KEY);
-  if (savedToken) {
-    verificarToken(savedToken);
-  }
+  if (savedToken) verificarToken(savedToken);
 </script>
 </body>
 </html>

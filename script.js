@@ -9,6 +9,8 @@ const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqOXq_4
 // =============================================
 // DATOS DINÁMICOS DESDE datos.json
 // =============================================
+let _fotosProductos = {};
+
 async function cargarDatos() {
   try {
     const res = await fetch('datos.json?t=' + Date.now());
@@ -16,6 +18,7 @@ async function cargarDatos() {
     const datos = await res.json();
     if (datos.reparaciones) renderReparaciones(datos.reparaciones);
     if (datos.contacto) renderContacto(datos.contacto);
+    if (datos.fotos_productos) _fotosProductos = datos.fotos_productos;
   } catch (e) {
     // Si no se puede cargar, el HTML estático se mantiene
   }
@@ -58,8 +61,6 @@ function renderContacto(contacto) {
     }
   }
 }
-
-cargarDatos();
 
 // =============================================
 
@@ -211,7 +212,10 @@ function crearCardProducto(p) {
   const badgeHTML = p.badge ? `<span class="product-badge ${badgeClass}">${p.badge}</span>` : '';
   const mensajeWA = encodeURIComponent(`Hola! Quiero consultar por el ${p.nombre}.`);
   const marcaLabel = p.marca.charAt(0).toUpperCase() + p.marca.slice(1);
-  const fotos = [p.foto1, p.foto2, p.foto3, p.foto4, p.foto5, p.foto6].filter(Boolean);
+  const fotosAdmin = _fotosProductos[p.nombre];
+  const fotos = (fotosAdmin && fotosAdmin.length)
+    ? fotosAdmin
+    : [p.foto1, p.foto2, p.foto3, p.foto4, p.foto5, p.foto6].filter(Boolean);
 
   const card = document.createElement('div');
   card.className = 'product-card';
@@ -281,7 +285,7 @@ async function cargarProductos() {
   }
 }
 
-cargarProductos();
+cargarDatos().then(cargarProductos);
 
 // FAQ acordeón
 document.querySelectorAll('.faq-question').forEach(btn => {
