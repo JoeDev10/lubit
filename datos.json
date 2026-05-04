@@ -1,5 +1,4 @@
 {
-  "fotos_productos": {},
   "contacto": {
     "direccion": "Av. Corrientes 1234, CABA",
     "whatsapp": "5491131706948",
@@ -44,5 +43,10 @@
       "descripcion": "Microsoldadura y reparación de componentes a nivel board.",
       "precio": "Presupuesto sin cargo"
     }
-  ]
+  ],
+  "fotos_productos": {
+    "Galaxy S24 FE": [
+      "https://i.imgur.com/BKSiCJU.jpeg"
+    ]
+  }
 }
