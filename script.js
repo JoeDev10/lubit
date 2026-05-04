@@ -19,9 +19,43 @@ async function cargarDatos() {
     if (datos.reparaciones) renderReparaciones(datos.reparaciones);
     if (datos.contacto) renderContacto(datos.contacto);
     if (datos.fotos_productos) _fotosProductos = datos.fotos_productos;
+    if (datos.faq) renderFAQ(datos.faq);
   } catch (e) {
     // Si no se puede cargar, el HTML estático se mantiene
   }
+}
+
+function renderFAQ(faq) {
+  const list = document.getElementById('faqList');
+  if (!list) return;
+  list.innerHTML = faq.map(item => `
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        ${item.pregunta}
+        <i class="fa-solid fa-chevron-down faq-icon"></i>
+      </button>
+      <div class="faq-answer">
+        <p>${item.respuesta}</p>
+      </div>
+    </div>
+  `).join('');
+  initFAQ();
+}
+
+function initFAQ() {
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-question').forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        btn.nextElementSibling.classList.add('open');
+      }
+    });
+  });
 }
 
 function renderReparaciones(reparaciones) {
@@ -287,20 +321,7 @@ async function cargarProductos() {
 
 cargarDatos().then(cargarProductos);
 
-// FAQ acordeón
-document.querySelectorAll('.faq-question').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const isOpen = btn.getAttribute('aria-expanded') === 'true';
-    document.querySelectorAll('.faq-question').forEach(b => {
-      b.setAttribute('aria-expanded', 'false');
-      b.nextElementSibling.classList.remove('open');
-    });
-    if (!isOpen) {
-      btn.setAttribute('aria-expanded', 'true');
-      btn.nextElementSibling.classList.add('open');
-    }
-  });
-});
+// FAQ acordeón — se inicializa después de renderFAQ()
 
 // Lightbox
 const lightbox = document.getElementById('lightbox');

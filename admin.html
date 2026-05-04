@@ -32,58 +32,33 @@
     .login-card h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
     .login-card p { color: #64748b; margin-bottom: 32px; font-size: 0.9rem; line-height: 1.5; }
     .login-card input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: inherit;
-      margin-bottom: 12px;
+      width: 100%; padding: 12px 16px;
+      border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 1rem; font-family: inherit; margin-bottom: 12px;
       transition: border-color .2s;
     }
     .login-card input:focus { outline: none; border-color: #2563eb; }
     .btn-login {
-      width: 100%;
-      padding: 13px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      width: 100%; padding: 13px;
+      background: #2563eb; color: white; border: none;
+      border-radius: 8px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: background .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
       font-family: inherit;
     }
     .btn-login:hover { background: #1d4ed8; }
     .login-error {
-      color: #ef4444;
-      font-size: 0.85rem;
-      margin-top: 12px;
-      display: none;
-      background: #fef2f2;
-      padding: 10px;
-      border-radius: 8px;
+      color: #ef4444; font-size: 0.85rem; margin-top: 12px;
+      display: none; background: #fef2f2; padding: 10px; border-radius: 8px;
     }
 
-    /* ---- ADMIN PANEL ---- */
+    /* ---- HEADER ---- */
     #adminPanel { display: none; }
-
     .admin-header {
       background: linear-gradient(135deg, #0f172a, #1e3a8a);
-      color: white;
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      color: white; padding: 0 24px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
       box-shadow: 0 2px 12px rgba(0,0,0,0.25);
     }
     .header-left { display: flex; align-items: center; gap: 12px; }
@@ -91,252 +66,185 @@
     .header-left h1 { font-size: 1.05rem; font-weight: 600; }
     .header-actions { display: flex; gap: 8px; }
     .btn-save {
-      background: #16a34a;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 9px 20px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: background .2s, opacity .2s;
-      font-family: inherit;
+      background: #16a34a; color: white; border: none;
+      border-radius: 8px; padding: 9px 20px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: background .2s, opacity .2s; font-family: inherit;
     }
     .btn-save:hover { background: #15803d; }
     .btn-save:disabled { opacity: .6; cursor: not-allowed; }
     .btn-logout {
-      background: rgba(255,255,255,0.12);
-      color: white;
+      background: rgba(255,255,255,0.12); color: white;
       border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 8px;
-      padding: 9px 16px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background .2s;
-      font-family: inherit;
+      border-radius: 8px; padding: 9px 16px; font-size: 0.9rem;
+      cursor: pointer; transition: background .2s; font-family: inherit;
     }
     .btn-logout:hover { background: rgba(255,255,255,0.22); }
 
-    .admin-main {
-      max-width: 860px;
-      margin: 32px auto;
-      padding: 0 24px 80px;
-    }
-
+    /* ---- LAYOUT ---- */
+    .admin-main { max-width: 860px; margin: 32px auto; padding: 0 24px 80px; }
     .admin-section {
-      background: white;
-      border-radius: 14px;
-      padding: 28px;
-      margin-bottom: 24px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      background: white; border-radius: 14px; padding: 28px;
+      margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
       border: 1px solid #e2e8f0;
     }
     .admin-section h2 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.05rem; font-weight: 700; color: #1e293b;
+      margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
     }
     .admin-section h2 i { color: #2563eb; }
     .section-desc { color: #64748b; font-size: 0.85rem; margin-bottom: 22px; }
     .section-desc a { color: #2563eb; }
 
+    /* ---- CONTACTO ---- */
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group.full { grid-column: 1 / -1; }
     .form-group label { font-size: 0.82rem; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: .03em; }
     .form-group input {
-      padding: 10px 14px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      transition: border-color .2s;
-      color: #1e293b;
+      padding: 10px 14px; border: 2px solid #e2e8f0;
+      border-radius: 8px; font-size: 0.95rem; font-family: inherit;
+      transition: border-color .2s; color: #1e293b;
     }
     .form-group input:focus { outline: none; border-color: #2563eb; }
 
-    /* Repairs */
+    /* ---- REPARACIONES ---- */
     .repair-admin-list { display: flex; flex-direction: column; gap: 10px; }
     .repair-admin-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      transition: border-color .2s;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border: 2px solid #e2e8f0;
+      border-radius: 10px; transition: border-color .2s;
     }
     .repair-admin-item:focus-within { border-color: #2563eb; }
     .repair-icon-box {
-      width: 42px;
-      height: 42px;
-      background: #eff6ff;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #2563eb;
-      font-size: 1rem;
-      flex-shrink: 0;
+      width: 42px; height: 42px; background: #eff6ff;
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; color: #2563eb; font-size: 1rem; flex-shrink: 0;
     }
     .repair-info { flex: 1; min-width: 0; }
     .repair-info strong { display: block; font-size: 0.9rem; font-weight: 600; }
     .repair-info small { color: #64748b; font-size: 0.78rem; }
     .repair-price-input {
-      width: 190px;
-      flex-shrink: 0;
-      padding: 8px 12px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      transition: border-color .2s;
-      text-align: right;
+      width: 190px; flex-shrink: 0; padding: 8px 12px;
+      border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 0.9rem; font-family: inherit;
+      transition: border-color .2s; text-align: right;
     }
     .repair-price-input:focus { outline: none; border-color: #2563eb; }
 
-    /* ---- FOTOS ---- */
+    /* ---- FOTOS — FILTRO POR MARCA ---- */
+    .brand-filters {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+    }
+    .brand-btn {
+      padding: 6px 16px; border-radius: 20px;
+      border: 2px solid #e2e8f0; background: white;
+      font-size: 0.85rem; font-weight: 600; color: #64748b;
+      cursor: pointer; transition: all .2s; font-family: inherit;
+    }
+    .brand-btn:hover { border-color: #93c5fd; color: #2563eb; }
+    .brand-btn.active { background: #2563eb; border-color: #2563eb; color: white; }
+
+    /* ---- FOTOS — CARDS ---- */
     .loading-text { color: #64748b; font-size: 0.9rem; padding: 20px 0; }
     .productos-fotos-list { display: flex; flex-direction: column; gap: 16px; }
-
     .producto-foto-card {
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      overflow: hidden;
+      border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden;
     }
+    .producto-foto-card.hidden { display: none; }
     .producto-foto-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 16px;
-      background: #f8fafc;
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; background: #f8fafc;
       border-bottom: 1px solid #e2e8f0;
     }
     .producto-foto-header strong { font-size: 0.95rem; flex: 1; }
     .marca-tag {
-      background: #eff6ff;
-      color: #2563eb;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 20px;
+      background: #eff6ff; color: #2563eb;
+      font-size: 0.75rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 20px;
     }
-    .badge-disponible {
-      background: #dcfce7;
-      color: #16a34a;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 20px;
-    }
-    .badge-nodisponible {
-      background: #fef2f2;
-      color: #dc2626;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 20px;
-    }
-
+    .badge-disponible { background: #dcfce7; color: #16a34a; font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
+    .badge-nodisponible { background: #fef2f2; color: #dc2626; font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
     .fotos-inputs-list { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
-    .foto-input-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .foto-num {
-      color: #94a3b8;
-      font-size: 0.8rem;
-      font-weight: 600;
-      width: 20px;
-      flex-shrink: 0;
-      text-align: right;
-    }
+    .foto-input-row { display: flex; align-items: center; gap: 10px; }
+    .foto-num { color: #94a3b8; font-size: 0.8rem; font-weight: 600; width: 20px; flex-shrink: 0; text-align: right; }
     .foto-preview {
-      width: 48px;
-      height: 48px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      flex-shrink: 0;
-      background: #f1f5f9;
-    }
-    .foto-preview.empty {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #cbd5e1;
-      font-size: 1.2rem;
+      width: 48px; height: 48px; object-fit: cover;
+      border-radius: 8px; border: 1px solid #e2e8f0;
+      flex-shrink: 0; background: #f1f5f9;
     }
     .foto-url-input {
-      flex: 1;
-      padding: 8px 12px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-family: inherit;
-      transition: border-color .2s;
-      min-width: 0;
+      flex: 1; padding: 8px 12px; border: 2px solid #e2e8f0;
+      border-radius: 8px; font-size: 0.85rem; font-family: inherit;
+      transition: border-color .2s; min-width: 0;
     }
     .foto-url-input:focus { outline: none; border-color: #2563eb; }
     .btn-remove-foto {
-      background: none;
-      border: none;
-      color: #94a3b8;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
-      transition: color .2s;
-      flex-shrink: 0;
-      font-size: 1rem;
+      background: none; border: none; color: #94a3b8;
+      cursor: pointer; padding: 4px; border-radius: 4px;
+      transition: color .2s; flex-shrink: 0; font-size: 1rem;
     }
     .btn-remove-foto:hover { color: #ef4444; }
     .btn-add-foto {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #2563eb;
-      font-size: 0.85rem;
-      font-weight: 600;
-      background: none;
-      border: 2px dashed #bfdbfe;
-      border-radius: 8px;
-      padding: 8px 14px;
-      cursor: pointer;
-      transition: background .2s, border-color .2s;
-      font-family: inherit;
-      margin-top: 4px;
-      width: 100%;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      color: #2563eb; font-size: 0.85rem; font-weight: 600;
+      background: none; border: 2px dashed #bfdbfe;
+      border-radius: 8px; padding: 8px 14px; cursor: pointer;
+      transition: background .2s, border-color .2s; font-family: inherit;
+      margin-top: 4px; width: 100%;
     }
     .btn-add-foto:hover { background: #eff6ff; border-color: #93c5fd; }
 
-    /* Toast */
+    /* ---- FAQ ---- */
+    .faq-admin-list { display: flex; flex-direction: column; gap: 14px; }
+    .faq-admin-item {
+      border: 2px solid #e2e8f0; border-radius: 12px;
+      overflow: hidden; transition: border-color .2s;
+    }
+    .faq-admin-item:focus-within { border-color: #2563eb; }
+    .faq-admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .faq-admin-header span { font-size: 0.8rem; font-weight: 600; color: #64748b; }
+    .faq-admin-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .faq-admin-body input, .faq-admin-body textarea {
+      width: 100%; padding: 10px 14px;
+      border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 0.9rem; font-family: inherit;
+      transition: border-color .2s; color: #1e293b;
+      resize: vertical;
+    }
+    .faq-admin-body input:focus,
+    .faq-admin-body textarea:focus { outline: none; border-color: #2563eb; }
+    .faq-admin-body textarea { min-height: 80px; }
+    .btn-remove-faq {
+      background: none; border: none; color: #94a3b8;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600;
+      display: flex; align-items: center; gap: 4px;
+      transition: color .2s; font-family: inherit; padding: 2px 6px;
+    }
+    .btn-remove-faq:hover { color: #ef4444; }
+    .btn-add-faq {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      color: #2563eb; font-size: 0.9rem; font-weight: 600;
+      background: none; border: 2px dashed #bfdbfe;
+      border-radius: 10px; padding: 12px; cursor: pointer;
+      transition: background .2s, border-color .2s; font-family: inherit;
+      width: 100%; margin-top: 4px;
+    }
+    .btn-add-faq:hover { background: #eff6ff; border-color: #93c5fd; }
+
+    /* ---- TOAST ---- */
     .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      padding: 14px 20px;
-      border-radius: 10px;
-      color: white;
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      position: fixed; bottom: 24px; right: 24px;
+      padding: 14px 20px; border-radius: 10px; color: white;
+      font-weight: 600; font-size: 0.9rem;
+      display: flex; align-items: center; gap: 8px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all .3s ease;
-      z-index: 9999;
-      max-width: 380px;
+      transform: translateY(80px); opacity: 0;
+      transition: all .3s ease; z-index: 9999; max-width: 380px;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { background: #16a34a; }
@@ -417,7 +325,7 @@
     <!-- REPARACIONES -->
     <div class="admin-section">
       <h2><i class="fa-solid fa-screwdriver-wrench"></i> Precios de reparaciones</h2>
-      <p class="section-desc">Editá el precio de cada servicio. Ejemplos: "Desde $15.000", "Diagnóstico gratis", "Presupuesto sin cargo".</p>
+      <p class="section-desc">Editá el precio de cada servicio. Ejemplos: "Desde $15.000", "Diagnóstico gratis".</p>
       <div class="repair-admin-list" id="repairsAdminList"></div>
     </div>
 
@@ -425,18 +333,28 @@
     <div class="admin-section">
       <h2><i class="fa-solid fa-images"></i> Fotos de productos</h2>
       <p class="section-desc">
-        Para cada celular pegá los links de Imgur (hasta 6 fotos por producto).
+        Filtrá por marca y pegá los links de Imgur (hasta 6 fotos por celular).
         <a href="https://imgur.com/upload" target="_blank">Subir foto a Imgur →</a>
       </p>
+      <div class="brand-filters" id="brandFilters"></div>
       <div id="fotosProductosList">
         <p class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Cargando productos desde la planilla...</p>
       </div>
     </div>
 
+    <!-- FAQ -->
+    <div class="admin-section">
+      <h2><i class="fa-solid fa-circle-question"></i> Preguntas frecuentes (FAQ)</h2>
+      <p class="section-desc">Editá, agregá o eliminá preguntas y respuestas.</p>
+      <div class="faq-admin-list" id="faqAdminList"></div>
+      <button class="btn-add-faq" onclick="agregarPreguntaFAQ()">
+        <i class="fa-solid fa-plus"></i> Agregar pregunta
+      </button>
+    </div>
+
   </main>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -448,9 +366,7 @@
   let datosActuales = null;
 
   // ---- LOGIN ----
-  document.getElementById('tokenInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') login();
-  });
+  document.getElementById('tokenInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
 
   function login() {
     const token = document.getElementById('tokenInput').value.trim();
@@ -464,7 +380,7 @@
       const res = await fetch(`https://api.github.com/repos/${REPO}`, {
         headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
       });
-      if (!res.ok) throw new Error('Token inválido');
+      if (!res.ok) throw new Error();
       localStorage.setItem(TOKEN_KEY, token);
       mostrarPanel();
     } catch {
@@ -479,10 +395,7 @@
     cargarDatosActuales();
   }
 
-  function logout() {
-    localStorage.removeItem(TOKEN_KEY);
-    location.reload();
-  }
+  function logout() { localStorage.removeItem(TOKEN_KEY); location.reload(); }
 
   // ---- CARGA DE DATOS ----
   async function cargarDatosActuales() {
@@ -492,7 +405,7 @@
       datosActuales = await res.json();
       rellenarFormulario(datosActuales);
       cargarProductosParaFotos(datosActuales.fotos_productos || {});
-    } catch (e) {
+    } catch {
       mostrarToast('No se pudo cargar datos.json', 'error');
     }
   }
@@ -506,6 +419,7 @@
       setValue('adminHorario', datos.contacto.horario);
     }
     if (datos.reparaciones) renderRepairsAdmin(datos.reparaciones);
+    if (datos.faq) renderFAQAdmin(datos.faq);
   }
 
   function setValue(id, val) {
@@ -513,6 +427,7 @@
     if (el && val !== undefined) el.value = val;
   }
 
+  // ---- REPARACIONES ----
   function renderRepairsAdmin(repairs) {
     document.getElementById('repairsAdminList').innerHTML = repairs.map((r, i) => `
       <div class="repair-admin-item">
@@ -522,8 +437,7 @@
           <small>${r.descripcion}</small>
         </div>
         <input class="repair-price-input" type="text"
-               id="repairPrice_${i}" value="${r.precio}"
-               placeholder="Ej: Desde $15.000"/>
+               id="repairPrice_${i}" value="${r.precio}" placeholder="Ej: Desde $15.000"/>
       </div>
     `).join('');
   }
@@ -532,8 +446,7 @@
   function parseCSVAdmin(text) {
     const lines = text.trim().replace(/\r/g, '').split('\n');
     return lines.slice(1).map(line => {
-      const cols = [];
-      let current = '', inQuotes = false;
+      const cols = []; let current = '', inQuotes = false;
       for (let i = 0; i < line.length; i++) {
         if (line[i] === '"') { inQuotes = !inQuotes; }
         else if (line[i] === ',' && !inQuotes) { cols.push(current.trim()); current = ''; }
@@ -550,40 +463,56 @@
       const res = await fetch(SHEETS_URL + '&t=' + Date.now());
       if (!res.ok) throw new Error();
       const rows = parseCSVAdmin(await res.text());
-
-      const productos = rows
-        .filter(cols => cols[0])
-        .map(cols => ({
-          nombre: cols[0] || '',
-          marca: cols[1] || '',
-          disponible: (cols[6] || '').trim().toUpperCase()
-        }));
+      const productos = rows.filter(cols => cols[0]).map(cols => ({
+        nombre: cols[0] || '',
+        marca: (cols[1] || '').toLowerCase().trim(),
+        disponible: (cols[6] || '').trim().toUpperCase()
+      }));
 
       if (!productos.length) {
-        container.innerHTML = '<p class="loading-text">No se encontraron productos en la planilla.</p>';
+        container.innerHTML = '<p class="loading-text">No se encontraron productos.</p>';
         return;
       }
 
+      // Extraer marcas únicas para los filtros
+      const marcas = [...new Set(productos.map(p => p.marca).filter(Boolean))];
+      renderBrandFilters(marcas);
+
+      // Renderizar cards
       container.innerHTML = '';
       const list = document.createElement('div');
       list.className = 'productos-fotos-list';
-
-      productos.forEach(p => {
-        const fotos = fotosGuardadas[p.nombre] || [];
-        list.appendChild(crearCardFotos(p, fotos));
-      });
-
+      productos.forEach(p => list.appendChild(crearCardFotos(p, fotosGuardadas[p.nombre] || [])));
       container.appendChild(list);
+
     } catch {
-      container.innerHTML = '<p class="loading-text" style="color:#ef4444">No se pudo cargar la planilla. Verificá que esté pública.</p>';
+      container.innerHTML = '<p class="loading-text" style="color:#ef4444">No se pudo cargar la planilla.</p>';
     }
+  }
+
+  function renderBrandFilters(marcas) {
+    const container = document.getElementById('brandFilters');
+    const capitalizar = s => s.charAt(0).toUpperCase() + s.slice(1);
+    container.innerHTML = `<button class="brand-btn active" data-brand="all" onclick="filtrarMarca(this)">Todos</button>` +
+      marcas.map(m => `<button class="brand-btn" data-brand="${m}" onclick="filtrarMarca(this)">${capitalizar(m)}</button>`).join('');
+  }
+
+  function filtrarMarca(btn) {
+    document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const marca = btn.dataset.brand;
+    document.querySelectorAll('.producto-foto-card').forEach(card => {
+      card.classList.toggle('hidden', marca !== 'all' && card.dataset.marca !== marca);
+    });
   }
 
   function crearCardFotos(p, fotos) {
     const card = document.createElement('div');
     card.className = 'producto-foto-card';
     card.dataset.nombre = p.nombre;
+    card.dataset.marca = p.marca;
 
+    const capitalizar = s => s.charAt(0).toUpperCase() + s.slice(1);
     const badge = p.disponible === 'SI'
       ? '<span class="badge-disponible">En venta</span>'
       : '<span class="badge-nodisponible">No disponible</span>';
@@ -591,38 +520,30 @@
     card.innerHTML = `
       <div class="producto-foto-header">
         <strong>${p.nombre}</strong>
-        <span class="marca-tag">${p.marca}</span>
+        <span class="marca-tag">${capitalizar(p.marca)}</span>
         ${badge}
       </div>
       <div class="fotos-inputs-list" id="fotosList_${slugify(p.nombre)}"></div>
     `;
 
     const list = card.querySelector('.fotos-inputs-list');
-
-    // Mostrar fotos existentes
     (fotos.length ? fotos : ['']).forEach(url => agregarFilaFoto(list, url));
 
-    // Botón agregar
     const btnAdd = document.createElement('button');
     btnAdd.className = 'btn-add-foto';
     btnAdd.type = 'button';
     btnAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar foto';
     btnAdd.onclick = () => {
-      if (list.querySelectorAll('.foto-input-row').length < 6) {
-        agregarFilaFoto(list, '');
-      } else {
-        mostrarToast('Máximo 6 fotos por producto', 'info');
-      }
+      if (list.querySelectorAll('.foto-input-row').length < 6) agregarFilaFoto(list, '');
+      else mostrarToast('Máximo 6 fotos por producto', 'info');
     };
     list.appendChild(btnAdd);
-
     return card;
   }
 
   function agregarFilaFoto(list, url) {
     const btnAdd = list.querySelector('.btn-add-foto');
     const index = list.querySelectorAll('.foto-input-row').length + 1;
-
     const row = document.createElement('div');
     row.className = 'foto-input-row';
 
@@ -643,13 +564,8 @@
     input.value = url || '';
     input.placeholder = 'https://i.imgur.com/...';
     input.addEventListener('input', function () {
-      if (this.value) {
-        preview.src = this.value;
-        preview.style.display = 'block';
-        preview.onerror = () => preview.style.display = 'none';
-      } else {
-        preview.style.display = 'none';
-      }
+      if (this.value) { preview.src = this.value; preview.style.display = 'block'; preview.onerror = () => preview.style.display = 'none'; }
+      else { preview.style.display = 'none'; }
     });
 
     const btnRemove = document.createElement('button');
@@ -659,33 +575,73 @@
     btnRemove.title = 'Quitar foto';
     btnRemove.onclick = () => {
       row.remove();
-      // Renumerar
       list.querySelectorAll('.foto-num').forEach((n, i) => n.textContent = i + 1);
     };
 
-    row.appendChild(num);
-    row.appendChild(preview);
-    row.appendChild(input);
-    row.appendChild(btnRemove);
-
+    row.append(num, preview, input, btnRemove);
     if (btnAdd) list.insertBefore(row, btnAdd);
     else list.appendChild(row);
-  }
-
-  function slugify(str) {
-    return str.replace(/[^a-zA-Z0-9]/g, '_');
   }
 
   function recopilarFotos() {
     const fotos = {};
     document.querySelectorAll('.producto-foto-card').forEach(card => {
       const nombre = card.dataset.nombre;
-      const urls = [...card.querySelectorAll('.foto-url-input')]
-        .map(i => i.value.trim())
-        .filter(Boolean);
+      const urls = [...card.querySelectorAll('.foto-url-input')].map(i => i.value.trim()).filter(Boolean);
       if (urls.length) fotos[nombre] = urls;
     });
     return fotos;
+  }
+
+  // ---- FAQ ----
+  function renderFAQAdmin(faq) {
+    const list = document.getElementById('faqAdminList');
+    list.innerHTML = '';
+    faq.forEach((item, i) => list.appendChild(crearItemFAQ(item.pregunta, item.respuesta, i)));
+  }
+
+  function crearItemFAQ(pregunta, respuesta, index) {
+    const item = document.createElement('div');
+    item.className = 'faq-admin-item';
+    item.innerHTML = `
+      <div class="faq-admin-header">
+        <span>Pregunta ${index + 1}</span>
+        <button class="btn-remove-faq" onclick="eliminarFAQ(this)" title="Eliminar">
+          <i class="fa-solid fa-trash"></i> Eliminar
+        </button>
+      </div>
+      <div class="faq-admin-body">
+        <input type="text" class="faq-pregunta-input" placeholder="¿Pregunta?" value="${escapeHTML(pregunta)}"/>
+        <textarea class="faq-respuesta-input" placeholder="Respuesta...">${escapeHTML(respuesta)}</textarea>
+      </div>
+    `;
+    return item;
+  }
+
+  function agregarPreguntaFAQ() {
+    const list = document.getElementById('faqAdminList');
+    const index = list.querySelectorAll('.faq-admin-item').length;
+    list.appendChild(crearItemFAQ('', '', index));
+    // Renumerar
+    list.querySelectorAll('.faq-admin-header span').forEach((s, i) => s.textContent = `Pregunta ${i + 1}`);
+    list.lastElementChild.querySelector('.faq-pregunta-input').focus();
+  }
+
+  function eliminarFAQ(btn) {
+    btn.closest('.faq-admin-item').remove();
+    // Renumerar
+    document.querySelectorAll('#faqAdminList .faq-admin-header span').forEach((s, i) => s.textContent = `Pregunta ${i + 1}`);
+  }
+
+  function recopilarFAQ() {
+    return [...document.querySelectorAll('.faq-admin-item')].map(item => ({
+      pregunta: item.querySelector('.faq-pregunta-input').value.trim(),
+      respuesta: item.querySelector('.faq-respuesta-input').value.trim()
+    })).filter(item => item.pregunta);
+  }
+
+  function escapeHTML(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   // ---- GUARDAR ----
@@ -700,6 +656,7 @@
 
     try {
       const nuevoDatos = {
+        fotos_productos: recopilarFotos(),
         contacto: {
           direccion: getVal('adminDireccion'),
           whatsapp: getVal('adminWhatsapp'),
@@ -711,7 +668,7 @@
           ...r,
           precio: getVal(`repairPrice_${i}`) || r.precio
         })),
-        fotos_productos: recopilarFotos()
+        faq: recopilarFAQ()
       };
 
       const getRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
@@ -728,16 +685,12 @@
           'Accept': 'application/vnd.github.v3+json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          message: 'Admin: actualizar datos del sitio',
-          content,
-          sha
-        })
+        body: JSON.stringify({ message: 'Admin: actualizar datos del sitio', content, sha })
       });
 
       if (!putRes.ok) {
         const err = await putRes.json();
-        throw new Error(err.message || 'Error al guardar en GitHub');
+        throw new Error(err.message || 'Error al guardar');
       }
 
       datosActuales = nuevoDatos;
@@ -751,10 +704,8 @@
     }
   }
 
-  function getVal(id) {
-    const el = document.getElementById(id);
-    return el ? el.value.trim() : '';
-  }
+  function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function slugify(str) { return str.replace(/[^a-zA-Z0-9]/g, '_'); }
 
   // ---- TOAST ----
   function mostrarToast(msg, tipo = 'info') {

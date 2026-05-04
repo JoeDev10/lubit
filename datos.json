@@ -1,11 +1,10 @@
 {
-  "fotos_productos": {},
   "contacto": {
     "direccion": "Av. Corrientes 1234, CABA",
     "whatsapp": "5491131706948",
     "whatsapp_display": "+54 11 3170-6948",
     "email": "info@lubit.com.ar",
-    "horario": "Lun–Sáb: 9:00 a 19:00"
+    "horario": "Lun–Sáb: 9:00 a 20:00"
   },
   "reparaciones": [
     {
@@ -43,6 +42,42 @@
       "titulo": "Reparación de placa",
       "descripcion": "Microsoldadura y reparación de componentes a nivel board.",
       "precio": "Presupuesto sin cargo"
+    }
+  ],
+  "fotos_productos": {
+    "Galaxy S24 FE": [
+      "https://i.imgur.com/BKSiCJU.jpeg",
+      "https://i.imgur.com/9ZUU3Fx.jpeg"
+    ]
+  },
+  "faq": [
+    {
+      "pregunta": "¿Cuánto tarda una reparación?",
+      "respuesta": "La mayoría de las reparaciones (cambio de pantalla, batería o conector de carga) están listas en menos de 2 horas. Reparaciones más complejas como daño por agua o placa pueden demorar 24 a 48 hs. Te avisamos por WhatsApp cuando tu equipo esté listo."
+    },
+    {
+      "pregunta": "¿Las reparaciones tienen garantía?",
+      "respuesta": "Sí, todas las reparaciones tienen garantía escrita de 90 días sobre el trabajo realizado y los repuestos utilizados. Si algo falla por el mismo problema dentro del período de garantía, lo solucionamos sin costo."
+    },
+    {
+      "pregunta": "¿El diagnóstico tiene algún costo?",
+      "respuesta": "No, el diagnóstico es completamente gratuito y sin compromiso. Revisamos tu equipo, te damos el presupuesto y vos decidís si querés continuar. Si no aceptás, te devolvemos el celular tal como llegó."
+    },
+    {
+      "pregunta": "¿Usan repuestos originales?",
+      "respuesta": "Trabajamos con repuestos originales y de primera calidad certificada. Antes de hacer cualquier trabajo te informamos qué tipo de repuesto se va a utilizar y el precio, para que puedas elegir la opción que mejor se adapte a tu presupuesto."
+    },
+    {
+      "pregunta": "¿Puedo pagar en cuotas los celulares?",
+      "respuesta": "Sí, aceptamos todas las tarjetas de crédito hasta 12 cuotas sin interés. También aceptamos débito, efectivo y transferencia bancaria. Para consultar el plan de cuotas de tu tarjeta específica, escribinos por WhatsApp."
+    },
+    {
+      "pregunta": "¿Hacen envíos a domicilio?",
+      "respuesta": "Sí, enviamos celulares a todo el país por correo o moto en CABA y GBA. También podés solicitar el retiro de tu equipo para reparación a domicilio dentro de CABA. Consultanos disponibilidad y costos por WhatsApp."
+    },
+    {
+      "pregunta": "¿Qué pasa si mi celular no tiene arreglo?",
+      "respuesta": "Si después del diagnóstico determinamos que el equipo no tiene reparación posible o que el costo no justifica la reparación, te lo comunicamos de inmediato y no te cobramos nada. El diagnóstico siempre es sin cargo."
     }
   ]
 }
