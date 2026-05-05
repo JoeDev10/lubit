@@ -1,15 +1,11 @@
 // =============================================
-// CONFIGURACIÓN — editá solo estas dos líneas
+// CONFIGURACIÓN
 // =============================================
 const WHATSAPP_NUMBER = '5491131706948';
-const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqOXq_4et5S8zU1ytsX1KzbixP6PyJDYp25_I5_OaDYCVOk11DRukT2BjgC7bnVVzSS_5sXydj7Sq8/pub?output=csv';
-
-// =============================================
 
 // =============================================
 // DATOS DINÁMICOS DESDE datos.json
 // =============================================
-let _fotosProductos = {};
 
 async function cargarDatos() {
   try {
@@ -18,11 +14,25 @@ async function cargarDatos() {
     const datos = await res.json();
     if (datos.reparaciones) renderReparaciones(datos.reparaciones);
     if (datos.contacto) renderContacto(datos.contacto);
-    if (datos.fotos_productos) _fotosProductos = datos.fotos_productos;
     if (datos.faq) renderFAQ(datos.faq);
+    if (datos.productos) renderProductos(datos.productos);
   } catch (e) {
     // Si no se puede cargar, el HTML estático se mantiene
   }
+}
+
+function renderProductos(productos) {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+  const disponibles = productos.filter(p => p.nombre);
+  if (!disponibles.length) {
+    grid.innerHTML = '<p style="text-align:center;color:#64748b;padding:40px;grid-column:1/-1">No hay productos disponibles por el momento.</p>';
+    return;
+  }
+  grid.innerHTML = '';
+  disponibles.forEach(p => grid.appendChild(crearCardProducto(p)));
+  iniciarFiltros();
+  animarElementos();
 }
 
 function renderFAQ(faq) {
@@ -182,24 +192,8 @@ function iniciarFiltros() {
 iniciarFiltros();
 
 // =============================================
-// CARGA DE PRODUCTOS DESDE GOOGLE SHEETS
+// CARRUSEL
 // =============================================
-function parseCSV(text) {
-  const lines = text.trim().replace(/\r/g, '').split('\n');
-  return lines.slice(1).map(line => {
-    const cols = [];
-    let current = '';
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] === '"') { inQuotes = !inQuotes; }
-      else if (line[i] === ',' && !inQuotes) { cols.push(current.trim()); current = ''; }
-      else { current += line[i]; }
-    }
-    cols.push(current.trim());
-    return cols;
-  }).filter(cols => cols.some(c => c));
-}
-
 function crearCarrusel(fotos) {
   if (!fotos.length) return `<div class="carousel-placeholder"><i class="fa-solid fa-mobile-screen-button"></i></div>`;
 
@@ -245,25 +239,22 @@ function crearCardProducto(p) {
   const badgeClass = p.badge === 'Hot' ? 'hot' : p.badge === 'Oferta' ? 'offer' : '';
   const badgeHTML = p.badge ? `<span class="product-badge ${badgeClass}">${p.badge}</span>` : '';
   const mensajeWA = encodeURIComponent(`Hola! Quiero consultar por el ${p.nombre}.`);
-  const marcaLabel = p.marca.charAt(0).toUpperCase() + p.marca.slice(1);
-  const fotosAdmin = _fotosProductos[p.nombre];
-  const fotos = (fotosAdmin && fotosAdmin.length)
-    ? fotosAdmin
-    : [p.foto1, p.foto2, p.foto3, p.foto4, p.foto5, p.foto6].filter(Boolean);
+  const marcaLabel = (p.marca || '').charAt(0).toUpperCase() + (p.marca || '').slice(1);
+  const fotos = (p.fotos && p.fotos.length) ? p.fotos : [];
 
   const card = document.createElement('div');
   card.className = 'product-card';
-  card.dataset.brand = p.marca;
+  card.dataset.brand = p.marca || '';
   card.innerHTML = `
     ${badgeHTML}
     ${crearCarrusel(fotos)}
     <div class="product-info">
       <span class="brand-tag">${marcaLabel}</span>
       <h3>${p.nombre}</h3>
-      <p>${p.descripcion}</p>
+      <p>${p.descripcion || ''}</p>
       <div class="price-row">
-        <strong class="price">$${p.precio}</strong>
-        <span class="installments">${p.cuotas}</span>
+        <strong class="price">${p.precio || ''}</strong>
+        <span class="installments">${p.cuotas || ''}</span>
       </div>
       <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${mensajeWA}" target="_blank" class="btn btn-primary full-width">Consultar</a>
     </div>
@@ -272,58 +263,11 @@ function crearCardProducto(p) {
   return card;
 }
 
-async function cargarProductos() {
-  const grid = document.getElementById('productsGrid');
+cargarDatos();
 
-  if (!SHEETS_CSV_URL) {
-    grid.innerHTML = '<p style="text-align:center;color:#64748b;padding:40px;grid-column:1/-1">Los productos se cargarán desde Google Sheets próximamente.</p>';
-    return;
-  }
-
-  grid.innerHTML = '<p style="text-align:center;color:#64748b;padding:40px;grid-column:1/-1">Cargando productos...</p>';
-
-  try {
-    const res = await fetch(SHEETS_CSV_URL);
-    if (!res.ok) throw new Error(`Error ${res.status} al cargar la planilla`);
-    const text = await res.text();
-    const rows = parseCSV(text);
-
-    const productos = rows
-      .map(cols => ({
-        nombre: cols[0] || '',
-        marca: (cols[1] || '').toLowerCase(),
-        descripcion: cols[2] || '',
-        precio: cols[3] || '',
-        cuotas: cols[4] || '',
-        badge: cols[5] || '',
-        disponible: (cols[6] || '').toUpperCase(),
-        foto1: cols[7] || '',
-        foto2: cols[8] || '',
-        foto3: cols[9] || '',
-        foto4: cols[10] || '',
-        foto5: cols[11] || '',
-        foto6: cols[12] || '',
-      }))
-      .filter(p => p.disponible === 'SI' && p.nombre);
-
-    grid.innerHTML = '';
-    productos.forEach(p => {
-      grid.appendChild(crearCardProducto(p));
-    });
-
-    iniciarFiltros();
-    animarElementos();
-
-  } catch {
-    grid.innerHTML = '<p style="text-align:center;color:#ef4444;padding:40px;grid-column:1/-1">No se pudieron cargar los productos. Verificá la URL de Google Sheets.</p>';
-  }
-}
-
-cargarDatos().then(cargarProductos);
-
-// FAQ acordeón — se inicializa después de renderFAQ()
-
-// Lightbox
+// =============================================
+// LIGHTBOX
+// =============================================
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxPrev = document.getElementById('lightboxPrev');

@@ -44,12 +44,20 @@
       "precio": "Presupuesto sin cargo"
     }
   ],
-  "fotos_productos": {
-    "Galaxy S24 FE": [
-      "https://i.imgur.com/BKSiCJU.jpeg",
-      "https://i.imgur.com/9ZUU3Fx.jpeg"
-    ]
-  },
+  "productos": [
+    {
+      "nombre": "Galaxy S24 FE",
+      "marca": "samsung",
+      "descripcion": "",
+      "precio": "",
+      "cuotas": "",
+      "badge": "",
+      "fotos": [
+        "https://i.imgur.com/BKSiCJU.jpeg",
+        "https://i.imgur.com/9ZUU3Fx.jpeg"
+      ]
+    }
+  ],
   "faq": [
     {
       "pregunta": "¿Cuánto tarda una reparación?",

@@ -13,35 +13,27 @@
 
     /* ---- LOGIN ---- */
     #loginScreen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
+      min-height: 100vh; display: flex; align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
     .login-card {
-      background: white;
-      border-radius: 16px;
-      padding: 48px 40px;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
+      background: white; border-radius: 16px; padding: 48px 40px;
+      width: 100%; max-width: 420px; text-align: center;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     .login-card img { width: 64px; height: 64px; border-radius: 12px; margin-bottom: 24px; object-fit: cover; }
     .login-card h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
     .login-card p { color: #64748b; margin-bottom: 32px; font-size: 0.9rem; line-height: 1.5; }
     .login-card input {
-      width: 100%; padding: 12px 16px;
-      border: 2px solid #e2e8f0; border-radius: 8px;
-      font-size: 1rem; font-family: inherit; margin-bottom: 12px;
-      transition: border-color .2s;
+      width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0;
+      border-radius: 8px; font-size: 1rem; font-family: inherit;
+      margin-bottom: 12px; transition: border-color .2s;
     }
     .login-card input:focus { outline: none; border-color: #2563eb; }
     .btn-login {
-      width: 100%; padding: 13px;
-      background: #2563eb; color: white; border: none;
-      border-radius: 8px; font-size: 1rem; font-weight: 600;
+      width: 100%; padding: 13px; background: #2563eb; color: white;
+      border: none; border-radius: 8px; font-size: 1rem; font-weight: 600;
       cursor: pointer; transition: background .2s;
       display: flex; align-items: center; justify-content: center; gap: 8px;
       font-family: inherit;
@@ -96,17 +88,22 @@
     .section-desc { color: #64748b; font-size: 0.85rem; margin-bottom: 22px; }
     .section-desc a { color: #2563eb; }
 
-    /* ---- CONTACTO ---- */
+    /* ---- FORMS ---- */
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group.full { grid-column: 1 / -1; }
-    .form-group label { font-size: 0.82rem; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: .03em; }
-    .form-group input {
+    .form-group label {
+      font-size: 0.82rem; font-weight: 600; color: #374151;
+      text-transform: uppercase; letter-spacing: .03em;
+    }
+    .form-group input,
+    .form-group select {
       padding: 10px 14px; border: 2px solid #e2e8f0;
       border-radius: 8px; font-size: 0.95rem; font-family: inherit;
-      transition: border-color .2s; color: #1e293b;
+      transition: border-color .2s; color: #1e293b; background: white;
     }
-    .form-group input:focus { outline: none; border-color: #2563eb; }
+    .form-group input:focus,
+    .form-group select:focus { outline: none; border-color: #2563eb; }
 
     /* ---- REPARACIONES ---- */
     .repair-admin-list { display: flex; flex-direction: column; gap: 10px; }
@@ -132,10 +129,8 @@
     }
     .repair-price-input:focus { outline: none; border-color: #2563eb; }
 
-    /* ---- FOTOS — FILTRO POR MARCA ---- */
-    .brand-filters {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
-    }
+    /* ---- BRAND FILTERS ---- */
+    .brand-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
     .brand-btn {
       padding: 6px 16px; border-radius: 20px;
       border: 2px solid #e2e8f0; background: white;
@@ -145,31 +140,48 @@
     .brand-btn:hover { border-color: #93c5fd; color: #2563eb; }
     .brand-btn.active { background: #2563eb; border-color: #2563eb; color: white; }
 
-    /* ---- FOTOS — CARDS ---- */
-    .loading-text { color: #64748b; font-size: 0.9rem; padding: 20px 0; }
-    .productos-fotos-list { display: flex; flex-direction: column; gap: 16px; }
-    .producto-foto-card {
-      border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden;
+    /* ---- PRODUCTOS ADMIN ---- */
+    .productos-admin-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
+    .producto-admin-card {
+      border: 2px solid #e2e8f0; border-radius: 12px;
+      overflow: hidden; transition: border-color .2s;
     }
-    .producto-foto-card.hidden { display: none; }
-    .producto-foto-header {
+    .producto-admin-card.hidden { display: none; }
+    .producto-admin-card:focus-within { border-color: #93c5fd; }
+    .producto-admin-header {
       display: flex; align-items: center; gap: 10px;
       padding: 12px 16px; background: #f8fafc;
       border-bottom: 1px solid #e2e8f0;
     }
-    .producto-foto-header strong { font-size: 0.95rem; flex: 1; }
+    .prod-header-nombre { font-size: 0.95rem; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .marca-tag {
       background: #eff6ff; color: #2563eb;
       font-size: 0.75rem; font-weight: 600;
-      padding: 3px 8px; border-radius: 20px;
+      padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
     }
-    .badge-disponible { background: #dcfce7; color: #16a34a; font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
-    .badge-nodisponible { background: #fef2f2; color: #dc2626; font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
-    .fotos-inputs-list { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .btn-remove-producto {
+      background: none; border: none; color: #94a3b8;
+      cursor: pointer; font-size: 0.82rem; font-weight: 600;
+      display: flex; align-items: center; gap: 4px;
+      transition: color .2s; font-family: inherit; padding: 4px 6px;
+      flex-shrink: 0;
+    }
+    .btn-remove-producto:hover { color: #ef4444; }
+    .producto-admin-body { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+
+    /* ---- FOTOS dentro de producto ---- */
+    .fotos-section { display: flex; flex-direction: column; gap: 8px; }
+    .fotos-section-label {
+      font-size: 0.82rem; font-weight: 600; color: #374151;
+      text-transform: uppercase; letter-spacing: .03em;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .fotos-section-label a { color: #2563eb; font-weight: 500; text-transform: none; letter-spacing: 0; }
+    .fotos-inputs-list { display: flex; flex-direction: column; gap: 8px; }
     .foto-input-row { display: flex; align-items: center; gap: 10px; }
-    .foto-num { color: #94a3b8; font-size: 0.8rem; font-weight: 600; width: 20px; flex-shrink: 0; text-align: right; }
+    .foto-num { color: #94a3b8; font-size: 0.8rem; font-weight: 600; width: 18px; flex-shrink: 0; text-align: right; }
     .foto-preview {
-      width: 48px; height: 48px; object-fit: cover;
+      width: 46px; height: 46px; object-fit: cover;
       border-radius: 8px; border: 1px solid #e2e8f0;
       flex-shrink: 0; background: #f1f5f9;
     }
@@ -190,10 +202,19 @@
       color: #2563eb; font-size: 0.85rem; font-weight: 600;
       background: none; border: 2px dashed #bfdbfe;
       border-radius: 8px; padding: 8px 14px; cursor: pointer;
-      transition: background .2s, border-color .2s; font-family: inherit;
-      margin-top: 4px; width: 100%;
+      transition: background .2s, border-color .2s; font-family: inherit; width: 100%;
     }
     .btn-add-foto:hover { background: #eff6ff; border-color: #93c5fd; }
+
+    /* ---- AGREGAR PRODUCTO ---- */
+    .btn-add-producto {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      color: #2563eb; font-size: 0.95rem; font-weight: 600;
+      background: none; border: 2px dashed #bfdbfe;
+      border-radius: 12px; padding: 14px; cursor: pointer;
+      transition: background .2s, border-color .2s; font-family: inherit; width: 100%;
+    }
+    .btn-add-producto:hover { background: #eff6ff; border-color: #93c5fd; }
 
     /* ---- FAQ ---- */
     .faq-admin-list { display: flex; flex-direction: column; gap: 14px; }
@@ -204,20 +225,16 @@
     .faq-admin-item:focus-within { border-color: #2563eb; }
     .faq-admin-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 14px; background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
     }
     .faq-admin-header span { font-size: 0.8rem; font-weight: 600; color: #64748b; }
     .faq-admin-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
     .faq-admin-body input, .faq-admin-body textarea {
-      width: 100%; padding: 10px 14px;
-      border: 2px solid #e2e8f0; border-radius: 8px;
-      font-size: 0.9rem; font-family: inherit;
-      transition: border-color .2s; color: #1e293b;
-      resize: vertical;
+      width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0;
+      border-radius: 8px; font-size: 0.9rem; font-family: inherit;
+      transition: border-color .2s; color: #1e293b; resize: vertical;
     }
-    .faq-admin-body input:focus,
-    .faq-admin-body textarea:focus { outline: none; border-color: #2563eb; }
+    .faq-admin-body input:focus, .faq-admin-body textarea:focus { outline: none; border-color: #2563eb; }
     .faq-admin-body textarea { min-height: 80px; }
     .btn-remove-faq {
       background: none; border: none; color: #94a3b8;
@@ -308,7 +325,7 @@
           <input type="text" id="adminWhatsapp" placeholder="5491112345678"/>
         </div>
         <div class="form-group">
-          <label>WhatsApp (texto a mostrar en la página)</label>
+          <label>WhatsApp (texto a mostrar)</label>
           <input type="text" id="adminWhatsappDisplay" placeholder="+54 11 1234-5678"/>
         </div>
         <div class="form-group">
@@ -325,21 +342,22 @@
     <!-- REPARACIONES -->
     <div class="admin-section">
       <h2><i class="fa-solid fa-screwdriver-wrench"></i> Precios de reparaciones</h2>
-      <p class="section-desc">Editá el precio de cada servicio. Ejemplos: "Desde $15.000", "Diagnóstico gratis".</p>
+      <p class="section-desc">Editá el precio de cada servicio. Ej: "Desde $15.000", "Diagnóstico gratis".</p>
       <div class="repair-admin-list" id="repairsAdminList"></div>
     </div>
 
-    <!-- FOTOS DE PRODUCTOS -->
+    <!-- PRODUCTOS -->
     <div class="admin-section">
-      <h2><i class="fa-solid fa-images"></i> Fotos de productos</h2>
+      <h2><i class="fa-solid fa-mobile-screen-button"></i> Productos</h2>
       <p class="section-desc">
-        Filtrá por marca y pegá los links de Imgur (hasta 6 fotos por celular).
-        <a href="https://imgur.com/upload" target="_blank">Subir foto a Imgur →</a>
+        Agregá, editá o eliminá los celulares de la tienda. Para las fotos usá
+        <a href="https://imgur.com/upload" target="_blank">Imgur →</a>
       </p>
       <div class="brand-filters" id="brandFilters"></div>
-      <div id="fotosProductosList">
-        <p class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Cargando productos desde la planilla...</p>
-      </div>
+      <div class="productos-admin-list" id="productosAdminList"></div>
+      <button class="btn-add-producto" onclick="agregarProducto()">
+        <i class="fa-solid fa-plus"></i> Agregar producto
+      </button>
     </div>
 
     <!-- FAQ -->
@@ -361,7 +379,7 @@
   const REPO = 'joedev10/lubit';
   const FILE = 'datos.json';
   const TOKEN_KEY = 'lubit_admin_token';
-  const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqOXq_4et5S8zU1ytsX1KzbixP6PyJDYp25_I5_OaDYCVOk11DRukT2BjgC7bnVVzSS_5sXydj7Sq8/pub?output=csv';
+  const MARCAS = ['samsung', 'apple', 'xiaomi', 'motorola', 'lg', 'otro'];
 
   let datosActuales = null;
 
@@ -404,7 +422,6 @@
       if (!res.ok) return;
       datosActuales = await res.json();
       rellenarFormulario(datosActuales);
-      cargarProductosParaFotos(datosActuales.fotos_productos || {});
     } catch {
       mostrarToast('No se pudo cargar datos.json', 'error');
     }
@@ -419,12 +436,18 @@
       setValue('adminHorario', datos.contacto.horario);
     }
     if (datos.reparaciones) renderRepairsAdmin(datos.reparaciones);
+    if (datos.productos) renderProductosAdmin(datos.productos);
     if (datos.faq) renderFAQAdmin(datos.faq);
   }
 
   function setValue(id, val) {
     const el = document.getElementById(id);
     if (el && val !== undefined) el.value = val;
+  }
+
+  function capitalizar(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+  function escapeHTML(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   // ---- REPARACIONES ----
@@ -437,107 +460,102 @@
           <small>${r.descripcion}</small>
         </div>
         <input class="repair-price-input" type="text"
-               id="repairPrice_${i}" value="${r.precio}" placeholder="Ej: Desde $15.000"/>
+               id="repairPrice_${i}" value="${escapeHTML(r.precio)}" placeholder="Ej: Desde $15.000"/>
       </div>
     `).join('');
   }
 
-  // ---- FOTOS DE PRODUCTOS ----
-  function parseCSVAdmin(text) {
-    const lines = text.trim().replace(/\r/g, '').split('\n');
-    return lines.slice(1).map(line => {
-      const cols = []; let current = '', inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        if (line[i] === '"') { inQuotes = !inQuotes; }
-        else if (line[i] === ',' && !inQuotes) { cols.push(current.trim()); current = ''; }
-        else { current += line[i]; }
-      }
-      cols.push(current.trim());
-      return cols;
-    }).filter(cols => cols.some(c => c));
+  // ---- PRODUCTOS ----
+  function renderProductosAdmin(productos) {
+    const list = document.getElementById('productosAdminList');
+    list.innerHTML = '';
+    productos.forEach((p, i) => list.appendChild(crearCardProductoAdmin(p, i)));
+    actualizarFiltrosMarca();
   }
 
-  async function cargarProductosParaFotos(fotosGuardadas) {
-    const container = document.getElementById('fotosProductosList');
-    try {
-      const res = await fetch(SHEETS_URL + '&t=' + Date.now());
-      if (!res.ok) throw new Error();
-      const rows = parseCSVAdmin(await res.text());
-      const productos = rows.filter(cols => cols[0]).map(cols => ({
-        nombre: cols[0] || '',
-        marca: (cols[1] || '').toLowerCase().trim(),
-        disponible: (cols[6] || '').trim().toUpperCase()
-      }));
-
-      if (!productos.length) {
-        container.innerHTML = '<p class="loading-text">No se encontraron productos.</p>';
-        return;
-      }
-
-      // Extraer marcas únicas para los filtros
-      const marcas = [...new Set(productos.map(p => p.marca).filter(Boolean))];
-      renderBrandFilters(marcas);
-
-      // Renderizar cards
-      container.innerHTML = '';
-      const list = document.createElement('div');
-      list.className = 'productos-fotos-list';
-      productos.forEach(p => list.appendChild(crearCardFotos(p, fotosGuardadas[p.nombre] || [])));
-      container.appendChild(list);
-
-    } catch {
-      container.innerHTML = '<p class="loading-text" style="color:#ef4444">No se pudo cargar la planilla.</p>';
-    }
-  }
-
-  function renderBrandFilters(marcas) {
-    const container = document.getElementById('brandFilters');
-    const capitalizar = s => s.charAt(0).toUpperCase() + s.slice(1);
-    container.innerHTML = `<button class="brand-btn active" data-brand="all" onclick="filtrarMarca(this)">Todos</button>` +
-      marcas.map(m => `<button class="brand-btn" data-brand="${m}" onclick="filtrarMarca(this)">${capitalizar(m)}</button>`).join('');
-  }
-
-  function filtrarMarca(btn) {
-    document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const marca = btn.dataset.brand;
-    document.querySelectorAll('.producto-foto-card').forEach(card => {
-      card.classList.toggle('hidden', marca !== 'all' && card.dataset.marca !== marca);
-    });
-  }
-
-  function crearCardFotos(p, fotos) {
+  function crearCardProductoAdmin(p, index) {
     const card = document.createElement('div');
-    card.className = 'producto-foto-card';
-    card.dataset.nombre = p.nombre;
-    card.dataset.marca = p.marca;
+    card.className = 'producto-admin-card';
+    card.dataset.marca = p.marca || '';
 
-    const capitalizar = s => s.charAt(0).toUpperCase() + s.slice(1);
-    const badge = p.disponible === 'SI'
-      ? '<span class="badge-disponible">En venta</span>'
-      : '<span class="badge-nodisponible">No disponible</span>';
+    const marcaOpts = MARCAS.map(m =>
+      `<option value="${m}"${p.marca === m ? ' selected' : ''}>${capitalizar(m)}</option>`
+    ).join('');
+
+    const badgeOpts = ['', 'Hot', 'Oferta'].map(b =>
+      `<option value="${b}"${p.badge === b ? ' selected' : ''}>${b || 'Sin badge'}</option>`
+    ).join('');
 
     card.innerHTML = `
-      <div class="producto-foto-header">
-        <strong>${p.nombre}</strong>
-        <span class="marca-tag">${capitalizar(p.marca)}</span>
-        ${badge}
+      <div class="producto-admin-header">
+        <span class="prod-header-nombre">${escapeHTML(p.nombre) || 'Nuevo producto'}</span>
+        <span class="marca-tag">${capitalizar(p.marca || '')}</span>
+        <button class="btn-remove-producto" onclick="eliminarProducto(this)">
+          <i class="fa-solid fa-trash"></i> Eliminar
+        </button>
       </div>
-      <div class="fotos-inputs-list" id="fotosList_${slugify(p.nombre)}"></div>
+      <div class="producto-admin-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nombre del producto</label>
+            <input type="text" class="prod-nombre" value="${escapeHTML(p.nombre || '')}" placeholder="Ej: iPhone 15 Pro"/>
+          </div>
+          <div class="form-group">
+            <label>Marca</label>
+            <select class="prod-marca">${marcaOpts}</select>
+          </div>
+          <div class="form-group full">
+            <label>Descripción</label>
+            <input type="text" class="prod-descripcion" value="${escapeHTML(p.descripcion || '')}" placeholder="Ej: 256GB, 8GB RAM, color Negro"/>
+          </div>
+          <div class="form-group">
+            <label>Precio</label>
+            <input type="text" class="prod-precio" value="${escapeHTML(p.precio || '')}" placeholder="Ej: $850.000"/>
+          </div>
+          <div class="form-group">
+            <label>Cuotas</label>
+            <input type="text" class="prod-cuotas" value="${escapeHTML(p.cuotas || '')}" placeholder="Ej: 12 cuotas sin interés"/>
+          </div>
+          <div class="form-group">
+            <label>Badge / Etiqueta</label>
+            <select class="prod-badge">${badgeOpts}</select>
+          </div>
+        </div>
+        <div class="fotos-section">
+          <span class="fotos-section-label">
+            Fotos &nbsp;<a href="https://imgur.com/upload" target="_blank">Subir a Imgur →</a>
+          </span>
+          <div class="fotos-inputs-list" id="fotosAdmin_${index}"></div>
+        </div>
+      </div>
     `;
 
-    const list = card.querySelector('.fotos-inputs-list');
-    (fotos.length ? fotos : ['']).forEach(url => agregarFilaFoto(list, url));
+    // Actualizar header en tiempo real
+    card.querySelector('.prod-nombre').addEventListener('input', function () {
+      card.querySelector('.prod-header-nombre').textContent = this.value || 'Nuevo producto';
+    });
+    card.querySelector('.prod-marca').addEventListener('change', function () {
+      card.dataset.marca = this.value;
+      card.querySelector('.marca-tag').textContent = capitalizar(this.value);
+      actualizarFiltrosMarca();
+    });
+
+    // Fotos
+    const fotosContainer = card.querySelector('.fotos-inputs-list');
+    const fotos = p.fotos && p.fotos.length ? p.fotos : [''];
+    fotos.forEach(url => agregarFilaFoto(fotosContainer, url));
 
     const btnAdd = document.createElement('button');
     btnAdd.className = 'btn-add-foto';
     btnAdd.type = 'button';
     btnAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar foto';
     btnAdd.onclick = () => {
-      if (list.querySelectorAll('.foto-input-row').length < 6) agregarFilaFoto(list, '');
-      else mostrarToast('Máximo 6 fotos por producto', 'info');
+      if (fotosContainer.querySelectorAll('.foto-input-row').length < 8)
+        agregarFilaFoto(fotosContainer, '');
+      else mostrarToast('Máximo 8 fotos por producto', 'info');
     };
-    list.appendChild(btnAdd);
+    fotosContainer.appendChild(btnAdd);
+
     return card;
   }
 
@@ -556,7 +574,7 @@
     preview.src = url || '';
     preview.alt = '';
     if (!url) preview.style.display = 'none';
-    preview.onerror = () => preview.style.display = 'none';
+    preview.onerror = () => { preview.style.display = 'none'; };
 
     const input = document.createElement('input');
     input.type = 'url';
@@ -564,8 +582,13 @@
     input.value = url || '';
     input.placeholder = 'https://i.imgur.com/...';
     input.addEventListener('input', function () {
-      if (this.value) { preview.src = this.value; preview.style.display = 'block'; preview.onerror = () => preview.style.display = 'none'; }
-      else { preview.style.display = 'none'; }
+      if (this.value) {
+        preview.src = this.value;
+        preview.style.display = 'block';
+        preview.onerror = () => { preview.style.display = 'none'; };
+      } else {
+        preview.style.display = 'none';
+      }
     });
 
     const btnRemove = document.createElement('button');
@@ -583,14 +606,55 @@
     else list.appendChild(row);
   }
 
-  function recopilarFotos() {
-    const fotos = {};
-    document.querySelectorAll('.producto-foto-card').forEach(card => {
-      const nombre = card.dataset.nombre;
-      const urls = [...card.querySelectorAll('.foto-url-input')].map(i => i.value.trim()).filter(Boolean);
-      if (urls.length) fotos[nombre] = urls;
+  function eliminarProducto(btn) {
+    if (confirm('¿Eliminar este producto?')) {
+      btn.closest('.producto-admin-card').remove();
+      actualizarFiltrosMarca();
+    }
+  }
+
+  function agregarProducto() {
+    const list = document.getElementById('productosAdminList');
+    const index = list.querySelectorAll('.producto-admin-card').length;
+    const nuevo = { nombre: '', marca: 'samsung', descripcion: '', precio: '', cuotas: '', badge: '', fotos: [] };
+    const card = crearCardProductoAdmin(nuevo, index);
+    list.appendChild(card);
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => card.querySelector('.prod-nombre').focus(), 300);
+    actualizarFiltrosMarca();
+  }
+
+  function actualizarFiltrosMarca() {
+    const marcas = [...new Set(
+      [...document.querySelectorAll('.producto-admin-card')]
+        .map(c => c.dataset.marca).filter(Boolean)
+    )];
+    const container = document.getElementById('brandFilters');
+    if (!marcas.length) { container.innerHTML = ''; return; }
+    container.innerHTML =
+      `<button class="brand-btn active" data-brand="all" onclick="filtrarMarca(this)">Todos</button>` +
+      marcas.map(m => `<button class="brand-btn" data-brand="${m}" onclick="filtrarMarca(this)">${capitalizar(m)}</button>`).join('');
+  }
+
+  function filtrarMarca(btn) {
+    document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const marca = btn.dataset.brand;
+    document.querySelectorAll('.producto-admin-card').forEach(card => {
+      card.classList.toggle('hidden', marca !== 'all' && card.dataset.marca !== marca);
     });
-    return fotos;
+  }
+
+  function recopilarProductos() {
+    return [...document.querySelectorAll('.producto-admin-card')].map(card => ({
+      nombre: card.querySelector('.prod-nombre').value.trim(),
+      marca: card.querySelector('.prod-marca').value,
+      descripcion: card.querySelector('.prod-descripcion').value.trim(),
+      precio: card.querySelector('.prod-precio').value.trim(),
+      cuotas: card.querySelector('.prod-cuotas').value.trim(),
+      badge: card.querySelector('.prod-badge').value,
+      fotos: [...card.querySelectorAll('.foto-url-input')].map(i => i.value.trim()).filter(Boolean)
+    })).filter(p => p.nombre);
   }
 
   // ---- FAQ ----
@@ -606,7 +670,7 @@
     item.innerHTML = `
       <div class="faq-admin-header">
         <span>Pregunta ${index + 1}</span>
-        <button class="btn-remove-faq" onclick="eliminarFAQ(this)" title="Eliminar">
+        <button class="btn-remove-faq" onclick="eliminarFAQ(this)">
           <i class="fa-solid fa-trash"></i> Eliminar
         </button>
       </div>
@@ -622,14 +686,12 @@
     const list = document.getElementById('faqAdminList');
     const index = list.querySelectorAll('.faq-admin-item').length;
     list.appendChild(crearItemFAQ('', '', index));
-    // Renumerar
     list.querySelectorAll('.faq-admin-header span').forEach((s, i) => s.textContent = `Pregunta ${i + 1}`);
     list.lastElementChild.querySelector('.faq-pregunta-input').focus();
   }
 
   function eliminarFAQ(btn) {
     btn.closest('.faq-admin-item').remove();
-    // Renumerar
     document.querySelectorAll('#faqAdminList .faq-admin-header span').forEach((s, i) => s.textContent = `Pregunta ${i + 1}`);
   }
 
@@ -638,10 +700,6 @@
       pregunta: item.querySelector('.faq-pregunta-input').value.trim(),
       respuesta: item.querySelector('.faq-respuesta-input').value.trim()
     })).filter(item => item.pregunta);
-  }
-
-  function escapeHTML(str) {
-    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   // ---- GUARDAR ----
@@ -656,7 +714,6 @@
 
     try {
       const nuevoDatos = {
-        fotos_productos: recopilarFotos(),
         contacto: {
           direccion: getVal('adminDireccion'),
           whatsapp: getVal('adminWhatsapp'),
@@ -668,6 +725,7 @@
           ...r,
           precio: getVal(`repairPrice_${i}`) || r.precio
         })),
+        productos: recopilarProductos(),
         faq: recopilarFAQ()
       };
 
@@ -705,7 +763,6 @@
   }
 
   function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
-  function slugify(str) { return str.replace(/[^a-zA-Z0-9]/g, '_'); }
 
   // ---- TOAST ----
   function mostrarToast(msg, tipo = 'info') {
