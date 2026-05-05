@@ -56,6 +56,17 @@
         "https://i.imgur.com/BKSiCJU.jpeg",
         "https://i.imgur.com/9ZUU3Fx.jpeg"
       ]
+    },
+    {
+      "nombre": "iPhone 15 Pro",
+      "marca": "apple",
+      "descripcion": "256 gb, 8gb ram, color negro",
+      "precio": "$850.000",
+      "cuotas": "",
+      "badge": "",
+      "fotos": [
+        "https://i.imgur.com/MWUUhv3.jpeg"
+      ]
     }
   ],
   "faq": [
