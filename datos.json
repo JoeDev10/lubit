@@ -1,8 +1,8 @@
 {
   "contacto": {
-    "direccion": "Av. Corrientes 1234, CABA",
-    "whatsapp": "5491131706948",
-    "whatsapp_display": "+54 11 3170-6948",
+    "direccion": "Calle 147 numero 1395 casi esquina 14 (timbre F)",
+    "whatsapp": "1131706948",
+    "whatsapp_display": "",
     "email": "info@lubit.com.ar",
     "horario": "Lun–Sáb: 9:00 a 20:00"
   },
@@ -11,19 +11,19 @@
       "icono": "fa-solid fa-display",
       "titulo": "Cambio de pantalla",
       "descripcion": "Pantallas originales y compatibles para todas las marcas.",
-      "precio": "Desde $15.000"
+      "precio": "Desde $38.000"
     },
     {
       "icono": "fa-solid fa-battery-full",
       "titulo": "Cambio de batería",
       "descripcion": "Recuperá la autonomía de tu equipo con batería nueva.",
-      "precio": "Desde $8.000"
+      "precio": "Desde $35000"
     },
     {
       "icono": "fa-solid fa-plug",
       "titulo": "Conector de carga",
       "descripcion": "Solucionamos problemas de carga lenta o intermitente.",
-      "precio": "Desde $6.000"
+      "precio": "Desde $25000"
     },
     {
       "icono": "fa-solid fa-camera",
@@ -60,13 +60,11 @@
     {
       "nombre": "iPhone 15 Pro",
       "marca": "apple",
-      "descripcion": "256 gb, 8gb ram, color negro",
-      "precio": "$850.000",
+      "descripcion": "128gb color gris",
+      "precio": "700 Usd",
       "cuotas": "",
       "badge": "",
-      "fotos": [
-        "https://i.imgur.com/MWUUhv3.jpeg"
-      ]
+      "fotos": []
     }
   ],
   "faq": [
