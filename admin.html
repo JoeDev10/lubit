@@ -197,6 +197,15 @@
       transition: color .2s; flex-shrink: 0; font-size: 1rem;
     }
     .btn-remove-foto:hover { color: #ef4444; }
+    .btn-upload-foto {
+      background: #eff6ff; border: 2px solid #bfdbfe; color: #2563eb;
+      border-radius: 8px; width: 36px; height: 36px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; cursor: pointer; padding: 0;
+      transition: background .2s, border-color .2s;
+    }
+    .btn-upload-foto:hover { background: #dbeafe; border-color: #93c5fd; }
+    .btn-upload-foto:disabled { opacity: .5; cursor: not-allowed; }
     .btn-add-foto {
       display: flex; align-items: center; justify-content: center; gap: 6px;
       color: #2563eb; font-size: 0.85rem; font-weight: 600;
@@ -591,6 +600,22 @@
       }
     });
 
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+
+    const btnUpload = document.createElement('button');
+    btnUpload.type = 'button';
+    btnUpload.className = 'btn-upload-foto';
+    btnUpload.title = 'Subir foto desde tu dispositivo o cámara';
+    btnUpload.innerHTML = '<i class="fa-solid fa-camera"></i>';
+    btnUpload.onclick = () => fileInput.click();
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) uploadFotoAlRepo(fileInput.files[0], input, preview, btnUpload);
+      fileInput.value = '';
+    });
+
     const btnRemove = document.createElement('button');
     btnRemove.type = 'button';
     btnRemove.className = 'btn-remove-foto';
@@ -601,7 +626,7 @@
       list.querySelectorAll('.foto-num').forEach((n, i) => n.textContent = i + 1);
     };
 
-    row.append(num, preview, input, btnRemove);
+    row.append(num, preview, btnUpload, fileInput, input, btnRemove);
     if (btnAdd) list.insertBefore(row, btnAdd);
     else list.appendChild(row);
   }
@@ -700,6 +725,61 @@
       pregunta: item.querySelector('.faq-pregunta-input').value.trim(),
       respuesta: item.querySelector('.faq-respuesta-input').value.trim()
     })).filter(item => item.pregunta);
+  }
+
+  // ---- SUBIR FOTO AL REPO ----
+  async function uploadFotoAlRepo(file, urlInput, preview, btnUpload) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) { mostrarToast('No hay sesión activa', 'error'); return; }
+
+    btnUpload.disabled = true;
+    btnUpload.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+    urlInput.disabled = true;
+    mostrarToast('Subiendo foto...', 'info');
+
+    // Preview local inmediata
+    const localUrl = URL.createObjectURL(file);
+    preview.src = localUrl;
+    preview.style.display = 'block';
+
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const ext = (file.name.split('.').pop() || 'jpg').replace(/[^a-z0-9]/gi, '').toLowerCase();
+      const filename = `imagenes/${Date.now()}${Math.random().toString(36).slice(2,6)}.${ext}`;
+
+      const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: 'Admin: subir imagen de producto', content: base64 })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'Error al subir');
+      }
+
+      urlInput.value = `https://raw.githubusercontent.com/${REPO}/master/${filename}`;
+      mostrarToast('¡Foto subida con éxito!', 'success');
+
+    } catch (e) {
+      preview.style.display = 'none';
+      preview.src = '';
+      mostrarToast('Error al subir: ' + e.message, 'error');
+    } finally {
+      btnUpload.disabled = false;
+      btnUpload.innerHTML = '<i class="fa-solid fa-camera"></i>';
+      urlInput.disabled = false;
+    }
   }
 
   // ---- GUARDAR ----
