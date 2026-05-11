@@ -64,7 +64,9 @@
       "precio": "700 Usd",
       "cuotas": "",
       "badge": "",
-      "fotos": []
+      "fotos": [
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778515409116d865.jpeg"
+      ]
     }
   ],
   "faq": [
