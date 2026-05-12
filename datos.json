@@ -58,14 +58,16 @@
       ]
     },
     {
-      "nombre": "iPhone 15 Pro",
+      "nombre": "iPhone 13",
       "marca": "apple",
-      "descripcion": "128gb color gris",
-      "precio": "700 Usd",
+      "descripcion": "128gb color rosa",
+      "precio": "430 usd",
       "cuotas": "",
       "badge": "",
       "fotos": [
-        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778515409116d865.jpeg"
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778560555395wmx8.png",
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778560575626y1ag.jpeg",
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778560614535z1cb.jpeg"
       ]
     }
   ],
