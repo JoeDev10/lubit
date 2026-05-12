@@ -69,6 +69,19 @@
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778560575626y1ag.jpeg",
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778560614535z1cb.jpeg"
       ]
+    },
+    {
+      "nombre": "Iphone 15 Plus",
+      "marca": "apple",
+      "descripcion": "256 gb de almacenamiento interno",
+      "precio": "850 usd",
+      "cuotas": "12 cuotas sin intereses dependiendo la tarjeta",
+      "badge": "",
+      "fotos": [
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778561330251g72j.jpeg",
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/17785613641053j91.jpeg",
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778561400800hnlr.jpeg"
+      ]
     }
   ],
   "faq": [
