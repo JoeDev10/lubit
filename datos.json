@@ -83,6 +83,20 @@
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778561400800hnlr.jpeg",
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/17785618293212dw8.png"
       ]
+    },
+    {
+      "nombre": "13 pro max",
+      "marca": "apple",
+      "descripcion": "256 Gb de almacenamiento",
+      "precio": "600Usd",
+      "cuotas": "",
+      "badge": "",
+      "fotos": [
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778710233848tmu1.jpeg",
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778710251423o9be.jpeg",
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778710272932xvph.jpeg",
+        "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/17787102876347svy.jpeg"
+      ]
     }
   ],
   "faq": [
