@@ -410,7 +410,8 @@ const VISTAS = {
   portada: { titulo: 'Portada', sub: 'Textos principales', render: vPortada },
   local: { titulo: 'Datos del local', sub: 'Dirección, horario, WhatsApp', render: vLocal },
   opiniones: { titulo: 'Opiniones', sub: 'Lo que dicen tus clientes', render: vOpiniones },
-  preguntas: { titulo: 'Preguntas', sub: 'Preguntas frecuentes', render: vPreguntas }
+  preguntas: { titulo: 'Preguntas', sub: 'Preguntas frecuentes', render: vPreguntas },
+  pin: { titulo: 'Cambiar PIN', sub: 'La clave para entrar al panel', render: vPin }
 };
 let vistaActual = 'inicio';
 function ir(v) {
@@ -484,8 +485,40 @@ function vInicio(v) {
       <button class="tile" data-v="portada"><i class="fa-solid fa-wand-magic-sparkles"></i><div><strong>Portada</strong><span>Título y textos</span></div></button>
       <button class="tile" data-v="opiniones"><i class="fa-solid fa-star"></i><div><strong>Opiniones</strong><span>Reseñas de clientes</span></div></button>
       <button class="tile" data-v="preguntas"><i class="fa-solid fa-circle-question"></i><div><strong>Preguntas</strong><span>Preguntas frecuentes</span></div></button>
+      <button class="tile" data-v="pin"><i class="fa-solid fa-key"></i><div><strong>Cambiar PIN</strong><span>La clave para entrar</span></div></button>
     </div>`;
   v.querySelectorAll('[data-v]').forEach(b => b.onclick = () => ir(b.dataset.v));
+}
+
+// =========================================================
+// CAMBIAR PIN
+// =========================================================
+function vPin(v) {
+  if (demo) { v.innerHTML = '<div class="loading">En modo prueba no se puede cambiar el PIN.</div>'; return; }
+  const caja = (id, label) => `<div class="field"><label for="${id}">${label}</label>
+    <input id="${id}" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="${PIN_LEN}" autocomplete="off" placeholder="••••" /></div>`;
+  v.innerHTML = caja('pinActual', 'PIN actual') + caja('pinNuevo', `PIN nuevo (${PIN_LEN} números)`) + caja('pinRepetir', 'Repetí el PIN nuevo') +
+    `<button class="add-btn big" id="pinCambiar"><i class="fa-solid fa-key"></i> Cambiar PIN</button>
+     <p style="color:var(--muted);font-size:.88rem;margin-top:12px">Anotalo en un lugar seguro. Si lo cambiás, en los otros celulares o compus vas a tener que entrar con el PIN nuevo.</p>`;
+  v.querySelectorAll('input').forEach(i => i.addEventListener('input', () => { i.value = i.value.replace(/\D/g, '').slice(0, PIN_LEN); }));
+  const btn = $('#pinCambiar');
+  btn.onclick = async () => {
+    const actual = $('#pinActual').value, nuevo = $('#pinNuevo').value, rep = $('#pinRepetir').value;
+    if (actual.length !== PIN_LEN) return toast('Poné tu PIN actual', 'err');
+    if (nuevo.length !== PIN_LEN) return toast(`El PIN nuevo tiene que tener ${PIN_LEN} números`, 'err');
+    if (nuevo !== rep) return toast('Los dos PIN nuevos no coinciden', 'err');
+    btn.disabled = true;
+    try {
+      const r = await api('pin', { actual, nuevo });
+      sesion = r.sesion;
+      try { localStorage.setItem(SESION_KEY, sesion); } catch {}
+      toast('¡Listo! Tu PIN nuevo es ' + nuevo);
+      ir('inicio');
+    } catch (e) {
+      toast(e.message, 'err');
+      btn.disabled = false;
+    }
+  };
 }
 
 // =========================================================
