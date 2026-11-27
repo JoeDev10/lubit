@@ -239,10 +239,9 @@
 // =========================================================
 // CONFIGURACIÓN
 // =========================================================
-// Dirección de la API. En Vercel es la misma página (/api/admin).
-// Si la página está en GitHub Pages, la API vive en el proyecto de Vercel.
-const API_VERCEL = 'https://lubit.vercel.app/api/admin';
-const API = location.hostname.endsWith('github.io') ? API_VERCEL : '/api/admin';
+// Dirección de la API: función de Supabase que pide solo el PIN.
+// Los datos se guardan en la base (tabla lubit_sitio) y las fotos en el bucket "lubit".
+const API = 'https://qpxqrtcceemdbbkdymjl.supabase.co/functions/v1/lubit-admin';
 const SESION_KEY = 'lubit_sesion';
 const PIN_LEN = 4;
 
@@ -391,7 +390,7 @@ async function guardar() {
     limpio.negocio.stats = limpio.negocio.stats.filter(s => s.numero.trim());
     await api('guardar', { datos: limpio });
     sucio = false; $('#savebar').hidden = true;
-    toast(demo ? 'Guardado (modo prueba)' : '¡Listo! En 1 minuto se ve en la página');
+    toast(demo ? 'Guardado (modo prueba)' : '¡Listo! Ya se ve en la página');
   } catch (e) {
     toast(e.message, 'err');
   } finally {

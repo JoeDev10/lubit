@@ -45,13 +45,24 @@ function fotoUrl(src) { return src; }
 // =========================================================
 // CARGA DE DATOS
 // =========================================================
+// Los datos se editan desde el admin y viven en Supabase.
+// Si la base no responde, se usa la copia de respaldo datos.json.
+const SB_URL = 'https://qpxqrtcceemdbbkdymjl.supabase.co';
+const SB_KEY = 'sb_publishable_aM4WcDMJpF1kL8EHQrabNg_nLGZ6-jD';
+
 async function cargarDatos() {
+  DATOS = {};
   try {
-    const res = await fetch('datos.json?t=' + Date.now());
+    const res = await fetch(`${SB_URL}/rest/v1/lubit_sitio?select=datos&id=eq.1`, { headers: { apikey: SB_KEY } });
     if (!res.ok) throw new Error();
-    DATOS = await res.json();
+    const filas = await res.json();
+    if (!filas[0] || !filas[0].datos) throw new Error();
+    DATOS = filas[0].datos;
   } catch {
-    DATOS = {};
+    try {
+      const res = await fetch('datos.json?t=' + Date.now());
+      if (res.ok) DATOS = await res.json();
+    } catch {}
   }
   const d = DATOS;
   if (d.contacto) renderContacto(d.contacto);
