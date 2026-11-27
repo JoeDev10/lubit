@@ -1,862 +1,812 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Admin — Lubit</title>
-  <link rel="icon" type="image/jpeg" href="logo.jpeg"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1530" />
+  <meta name="robots" content="noindex" />
+  <title>Mi página · Lubit</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,700..900,100&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: #1e293b; min-height: 100vh; }
+    :root {
+      --blue: #0b6bff; --blue-deep: #0452cf; --blue-soft: #e6efff;
+      --ink: #0b1530; --cream: #f7f4ee; --line: #e7e3da; --muted: #5b6478; --text: #18203a;
+      --lime: #d8ff3e; --wa: #1fae5b; --red: #e0503c; --red-soft: #fdecea;
+      --display: 'Fraunces', Georgia, serif; --body: 'Onest', system-ui, sans-serif;
+    }
+    [hidden] { display: none !important; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { font-family: var(--body); background: var(--cream); color: var(--text); min-height: 100vh; font-size: 16px; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    h1, h2, h3 { font-family: var(--display); font-variation-settings: 'SOFT' 100; color: var(--ink); letter-spacing: -.02em; line-height: 1.1; }
 
-    /* ---- LOGIN ---- */
-    #loginScreen {
-      min-height: 100vh; display: flex; align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    /* ---------- PIN ---------- */
+    #pinScreen { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; background: var(--blue); padding: 24px; }
+    .pin-card { width: 100%; max-width: 360px; text-align: center; color: #fff; }
+    .pin-card img { width: 72px; height: 72px; border-radius: 20px; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(0,0,0,.25); border: 3px solid #fff; }
+    .pin-card h1 { color: #fff; font-size: 2rem; margin-bottom: 6px; }
+    .pin-card p { opacity: .85; margin-bottom: 28px; }
+    .pin-dots { display: flex; justify-content: center; gap: 16px; margin-bottom: 14px; }
+    .pin-dots span { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid #fff; transition: background .15s, transform .15s; }
+    .pin-dots span.on { background: #fff; transform: scale(1.1); }
+    .pin-dots.shake { animation: shake .4s; }
+    @keyframes shake { 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
+    .pin-msg { min-height: 24px; font-weight: 600; margin-bottom: 18px; color: var(--lime); }
+    .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .keypad button {
+      height: 72px; border-radius: 22px; border: 0; background: rgba(255,255,255,.16); color: #fff;
+      font-size: 1.7rem; font-weight: 600; transition: background .1s, transform .1s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .login-card {
-      background: white; border-radius: 16px; padding: 48px 40px;
-      width: 100%; max-width: 420px; text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    .login-card img { width: 64px; height: 64px; border-radius: 12px; margin-bottom: 24px; object-fit: cover; }
-    .login-card h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
-    .login-card p { color: #64748b; margin-bottom: 32px; font-size: 0.9rem; line-height: 1.5; }
-    .login-card input {
-      width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0;
-      border-radius: 8px; font-size: 1rem; font-family: inherit;
-      margin-bottom: 12px; transition: border-color .2s;
-    }
-    .login-card input:focus { outline: none; border-color: #2563eb; }
-    .btn-login {
-      width: 100%; padding: 13px; background: #2563eb; color: white;
-      border: none; border-radius: 8px; font-size: 1rem; font-weight: 600;
-      cursor: pointer; transition: background .2s;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      font-family: inherit;
-    }
-    .btn-login:hover { background: #1d4ed8; }
-    .login-error {
-      color: #ef4444; font-size: 0.85rem; margin-top: 12px;
-      display: none; background: #fef2f2; padding: 10px; border-radius: 8px;
-    }
+    .keypad button:active { background: rgba(255,255,255,.34); transform: scale(.95); }
+    .keypad .k-muted { background: transparent; font-size: 1.2rem; }
+    .pin-back { display: inline-block; margin-top: 26px; color: #fff; opacity: .8; font-weight: 600; text-decoration: none; }
 
-    /* ---- HEADER ---- */
-    #adminPanel { display: none; }
-    .admin-header {
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
-      color: white; padding: 0 24px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    /* ---------- Panel ---------- */
+    #panel { padding-bottom: 120px; }
+    .top {
+      position: sticky; top: 0; z-index: 30; background: var(--ink); color: #fff;
+      padding: 12px 16px; padding-top: max(12px, env(safe-area-inset-top));
+      display: flex; align-items: center; gap: 12px;
     }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .header-left img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-    .header-left h1 { font-size: 1.05rem; font-weight: 600; }
-    .header-actions { display: flex; gap: 8px; }
-    .btn-save {
-      background: #16a34a; color: white; border: none;
-      border-radius: 8px; padding: 9px 20px; font-size: 0.9rem; font-weight: 600;
-      cursor: pointer; display: flex; align-items: center; gap: 6px;
-      transition: background .2s, opacity .2s; font-family: inherit;
+    .top img { width: 36px; height: 36px; border-radius: 10px; }
+    .top .t-title { font-weight: 700; flex: 1; min-width: 0; }
+    .top .t-title small { display: block; font-weight: 500; opacity: .7; font-size: .78rem; }
+    .top a, .top button.t-btn {
+      background: rgba(255,255,255,.12); color: #fff; border: 0; border-radius: 999px;
+      padding: 9px 14px; font-weight: 600; font-size: .88rem; text-decoration: none; display: inline-flex; gap: 8px; align-items: center;
     }
-    .btn-save:hover { background: #15803d; }
-    .btn-save:disabled { opacity: .6; cursor: not-allowed; }
-    .btn-logout {
-      background: rgba(255,255,255,0.12); color: white;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 8px; padding: 9px 16px; font-size: 0.9rem;
-      cursor: pointer; transition: background .2s; font-family: inherit;
-    }
-    .btn-logout:hover { background: rgba(255,255,255,0.22); }
+    .back-btn { background: rgba(255,255,255,.12); border: 0; color: #fff; width: 40px; height: 40px; border-radius: 12px; font-size: 1rem; }
 
-    /* ---- LAYOUT ---- */
-    .admin-main { max-width: 860px; margin: 32px auto; padding: 0 24px 80px; }
-    .admin-section {
-      background: white; border-radius: 14px; padding: 28px;
-      margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      border: 1px solid #e2e8f0;
-    }
-    .admin-section h2 {
-      font-size: 1.05rem; font-weight: 700; color: #1e293b;
-      margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
-    }
-    .admin-section h2 i { color: #2563eb; }
-    .section-desc { color: #64748b; font-size: 0.85rem; margin-bottom: 22px; }
-    .section-desc a { color: #2563eb; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 22px 16px; }
+    .hello h1 { font-size: 2rem; margin-bottom: 6px; }
+    .hello p { color: var(--muted); margin-bottom: 22px; }
 
-    /* ---- FORMS ---- */
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group.full { grid-column: 1 / -1; }
-    .form-group label {
-      font-size: 0.82rem; font-weight: 600; color: #374151;
-      text-transform: uppercase; letter-spacing: .03em;
+    .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .tile {
+      background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 18px; text-align: left;
+      display: flex; flex-direction: column; gap: 12px; min-height: 140px; transition: transform .15s, box-shadow .15s;
     }
-    .form-group input,
-    .form-group select {
-      padding: 10px 14px; border: 2px solid #e2e8f0;
-      border-radius: 8px; font-size: 0.95rem; font-family: inherit;
-      transition: border-color .2s; color: #1e293b; background: white;
-    }
-    .form-group input:focus,
-    .form-group select:focus { outline: none; border-color: #2563eb; }
+    .tile:active { transform: scale(.98); }
+    .tile:hover { box-shadow: 0 10px 30px -12px rgba(11,21,48,.3); }
+    .tile i { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 1.25rem; background: var(--blue-soft); color: var(--blue); }
+    .tile.main { grid-column: 1 / -1; background: var(--blue); color: #fff; border-color: var(--blue); min-height: 0; flex-direction: row; align-items: center; }
+    .tile.main i { background: rgba(255,255,255,.18); color: #fff; }
+    .tile.main strong { color: #fff; }
+    .tile.main span { color: rgba(255,255,255,.85); }
+    .tile strong { font-size: 1.1rem; color: var(--ink); display: block; }
+    .tile span { font-size: .88rem; color: var(--muted); }
 
-    /* ---- REPARACIONES ---- */
-    .repair-admin-list { display: flex; flex-direction: column; gap: 10px; }
-    .repair-admin-item {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 16px; border: 2px solid #e2e8f0;
-      border-radius: 10px; transition: border-color .2s;
-    }
-    .repair-admin-item:focus-within { border-color: #2563eb; }
-    .repair-icon-box {
-      width: 42px; height: 42px; background: #eff6ff;
-      border-radius: 10px; display: flex; align-items: center;
-      justify-content: center; color: #2563eb; font-size: 1rem; flex-shrink: 0;
-    }
-    .repair-info { flex: 1; min-width: 0; }
-    .repair-info strong { display: block; font-size: 0.9rem; font-weight: 600; }
-    .repair-info small { color: #64748b; font-size: 0.78rem; }
-    .repair-price-input {
-      width: 190px; flex-shrink: 0; padding: 8px 12px;
-      border: 2px solid #e2e8f0; border-radius: 8px;
-      font-size: 0.9rem; font-family: inherit;
-      transition: border-color .2s; text-align: right;
-    }
-    .repair-price-input:focus { outline: none; border-color: #2563eb; }
+    .view-head { margin-bottom: 18px; }
+    .view-head h2 { font-size: 1.8rem; }
+    .view-head p { color: var(--muted); margin-top: 6px; }
 
-    /* ---- BRAND FILTERS ---- */
-    .brand-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-    .brand-btn {
-      padding: 6px 16px; border-radius: 20px;
-      border: 2px solid #e2e8f0; background: white;
-      font-size: 0.85rem; font-weight: 600; color: #64748b;
-      cursor: pointer; transition: all .2s; font-family: inherit;
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 18px; margin-bottom: 12px; }
+    .field { display: grid; gap: 7px; margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label, .label { font-weight: 700; font-size: .95rem; color: var(--ink); }
+    .field small, .hint { color: var(--muted); font-size: .84rem; font-weight: 500; }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--line); background: var(--cream);
+      font-size: 1rem; transition: border-color .15s, background .15s;
     }
-    .brand-btn:hover { border-color: #93c5fd; color: #2563eb; }
-    .brand-btn.active { background: #2563eb; border-color: #2563eb; color: white; }
+    .field textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+    .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--blue); background: #fff; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    /* ---- PRODUCTOS ADMIN ---- */
-    .productos-admin-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
-    .producto-admin-card {
-      border: 2px solid #e2e8f0; border-radius: 12px;
-      overflow: hidden; transition: border-color .2s;
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips button {
+      padding: 10px 16px; border-radius: 999px; border: 2px solid var(--line); background: #fff; font-weight: 600; font-size: .95rem;
     }
-    .producto-admin-card.hidden { display: none; }
-    .producto-admin-card:focus-within { border-color: #93c5fd; }
-    .producto-admin-header {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 16px; background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    .prod-header-nombre { font-size: 0.95rem; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .marca-tag {
-      background: #eff6ff; color: #2563eb;
-      font-size: 0.75rem; font-weight: 600;
-      padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
-    }
-    .btn-remove-producto {
-      background: none; border: none; color: #94a3b8;
-      cursor: pointer; font-size: 0.82rem; font-weight: 600;
-      display: flex; align-items: center; gap: 4px;
-      transition: color .2s; font-family: inherit; padding: 4px 6px;
-      flex-shrink: 0;
-    }
-    .btn-remove-producto:hover { color: #ef4444; }
-    .producto-admin-body { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+    .chips button.on { background: var(--ink); border-color: var(--ink); color: #fff; }
 
-    /* ---- FOTOS dentro de producto ---- */
-    .fotos-section { display: flex; flex-direction: column; gap: 8px; }
-    .fotos-section-label {
-      font-size: 0.82rem; font-weight: 600; color: #374151;
-      text-transform: uppercase; letter-spacing: .03em;
-      display: flex; align-items: center; gap: 6px;
+    .add-btn {
+      width: 100%; padding: 18px; border-radius: 20px; border: 2.5px dashed #b9cdf3; background: transparent;
+      color: var(--blue); font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 10px;
     }
-    .fotos-section-label a { color: #2563eb; font-weight: 500; text-transform: none; letter-spacing: 0; }
-    .fotos-inputs-list { display: flex; flex-direction: column; gap: 8px; }
-    .foto-input-row { display: flex; align-items: center; gap: 10px; }
-    .foto-num { color: #94a3b8; font-size: 0.8rem; font-weight: 600; width: 18px; flex-shrink: 0; text-align: right; }
-    .foto-preview {
-      width: 46px; height: 46px; object-fit: cover;
-      border-radius: 8px; border: 1px solid #e2e8f0;
-      flex-shrink: 0; background: #f1f5f9;
-    }
-    .foto-url-input {
-      flex: 1; padding: 8px 12px; border: 2px solid #e2e8f0;
-      border-radius: 8px; font-size: 0.85rem; font-family: inherit;
-      transition: border-color .2s; min-width: 0;
-    }
-    .foto-url-input:focus { outline: none; border-color: #2563eb; }
-    .btn-remove-foto {
-      background: none; border: none; color: #94a3b8;
-      cursor: pointer; padding: 4px; border-radius: 4px;
-      transition: color .2s; flex-shrink: 0; font-size: 1rem;
-    }
-    .btn-remove-foto:hover { color: #ef4444; }
-    .btn-upload-foto {
-      background: #eff6ff; border: 2px solid #bfdbfe; color: #2563eb;
-      border-radius: 8px; width: 36px; height: 36px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; cursor: pointer; padding: 0;
-      transition: background .2s, border-color .2s;
-    }
-    .btn-upload-foto:hover { background: #dbeafe; border-color: #93c5fd; }
-    .btn-upload-foto:disabled { opacity: .5; cursor: not-allowed; }
-    .btn-add-foto {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      color: #2563eb; font-size: 0.85rem; font-weight: 600;
-      background: none; border: 2px dashed #bfdbfe;
-      border-radius: 8px; padding: 8px 14px; cursor: pointer;
-      transition: background .2s, border-color .2s; font-family: inherit; width: 100%;
-    }
-    .btn-add-foto:hover { background: #eff6ff; border-color: #93c5fd; }
+    .add-btn:active { background: var(--blue-soft); }
+    .add-btn.big { background: var(--blue); color: #fff; border: 0; padding: 20px; margin-bottom: 16px; box-shadow: 0 10px 24px -10px rgba(11,107,255,.7); }
 
-    /* ---- AGREGAR PRODUCTO ---- */
-    .btn-add-producto {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      color: #2563eb; font-size: 0.95rem; font-weight: 600;
-      background: none; border: 2px dashed #bfdbfe;
-      border-radius: 12px; padding: 14px; cursor: pointer;
-      transition: background .2s, border-color .2s; font-family: inherit; width: 100%;
-    }
-    .btn-add-producto:hover { background: #eff6ff; border-color: #93c5fd; }
+    .del-btn { background: none; border: 0; color: var(--red); font-weight: 700; display: inline-flex; gap: 8px; align-items: center; padding: 8px 0; }
 
-    /* ---- FAQ ---- */
-    .faq-admin-list { display: flex; flex-direction: column; gap: 14px; }
-    .faq-admin-item {
-      border: 2px solid #e2e8f0; border-radius: 12px;
-      overflow: hidden; transition: border-color .2s;
-    }
-    .faq-admin-item:focus-within { border-color: #2563eb; }
-    .faq-admin-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
-    }
-    .faq-admin-header span { font-size: 0.8rem; font-weight: 600; color: #64748b; }
-    .faq-admin-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-    .faq-admin-body input, .faq-admin-body textarea {
-      width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0;
-      border-radius: 8px; font-size: 0.9rem; font-family: inherit;
-      transition: border-color .2s; color: #1e293b; resize: vertical;
-    }
-    .faq-admin-body input:focus, .faq-admin-body textarea:focus { outline: none; border-color: #2563eb; }
-    .faq-admin-body textarea { min-height: 80px; }
-    .btn-remove-faq {
-      background: none; border: none; color: #94a3b8;
-      cursor: pointer; font-size: 0.85rem; font-weight: 600;
-      display: flex; align-items: center; gap: 4px;
-      transition: color .2s; font-family: inherit; padding: 2px 6px;
-    }
-    .btn-remove-faq:hover { color: #ef4444; }
-    .btn-add-faq {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      color: #2563eb; font-size: 0.9rem; font-weight: 600;
-      background: none; border: 2px dashed #bfdbfe;
-      border-radius: 10px; padding: 12px; cursor: pointer;
-      transition: background .2s, border-color .2s; font-family: inherit;
-      width: 100%; margin-top: 4px;
-    }
-    .btn-add-faq:hover { background: #eff6ff; border-color: #93c5fd; }
+    /* Lista de celulares */
+    .p-row { display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 12px; margin-bottom: 10px; }
+    .p-thumb { width: 68px; height: 68px; border-radius: 14px; object-fit: cover; background: #eef1f7; flex-shrink: 0; display: grid; place-items: center; color: #b4bdd2; font-size: 1.6rem; overflow: hidden; }
+    .p-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .p-info { flex: 1; min-width: 0; text-align: left; background: none; border: 0; padding: 0; }
+    .p-info strong { display: block; color: var(--ink); font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .p-info span { color: var(--muted); font-size: .9rem; }
+    .p-info .p-edit { color: var(--blue); font-weight: 700; font-size: .85rem; display: inline-flex; gap: 6px; align-items: center; margin-top: 2px; }
+    .p-row.sold { opacity: .65; }
 
-    /* ---- TOAST ---- */
+    /* Interruptor */
+    .switch { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; font-size: .72rem; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+    .switch .track { width: 52px; height: 30px; border-radius: 999px; background: var(--wa); position: relative; transition: background .2s; }
+    .switch .track::after { content: ''; position: absolute; top: 3px; left: 25px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: left .2s; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+    .switch.off .track { background: #c4c9d6; }
+    .switch.off .track::after { left: 3px; }
+
+    /* Hoja de edición */
+    .sheet { position: fixed; inset: 0; z-index: 40; background: var(--cream); overflow-y: auto; animation: up .25s ease; }
+    @keyframes up { from { transform: translateY(30px); opacity: 0; } }
+    .sheet-foot {
+      position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(247,244,238,0), var(--cream) 30%);
+      padding: 20px 16px; padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    .sheet-foot .wrap { padding: 0; }
+
+    /* Fotos */
+    .photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .ph { position: relative; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: #eef1f7; }
+    .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .ph .ph-x, .ph .ph-star {
+      position: absolute; top: 6px; width: 32px; height: 32px; border-radius: 50%; border: 0;
+      background: rgba(11,21,48,.75); color: #fff; display: grid; place-items: center; font-size: .85rem;
+    }
+    .ph .ph-x { right: 6px; }
+    .ph .ph-star { left: 6px; }
+    .ph .ph-cover { position: absolute; left: 6px; bottom: 6px; background: var(--lime); color: var(--ink); font-size: .7rem; font-weight: 800; padding: 3px 8px; border-radius: 999px; }
+    .ph .ph-load { position: absolute; inset: 0; background: rgba(11,21,48,.55); display: grid; place-items: center; color: #fff; font-size: 1.4rem; }
+    .ph-add { aspect-ratio: 1; border-radius: 16px; border: 2.5px dashed #b9cdf3; background: #fff; color: var(--blue); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-weight: 700; font-size: .85rem; }
+    .ph-add i { font-size: 1.6rem; }
+
+    .icons { display: flex; flex-wrap: wrap; gap: 8px; }
+    .icons button { width: 48px; height: 48px; border-radius: 14px; border: 2px solid var(--line); background: #fff; color: var(--blue); font-size: 1.1rem; }
+    .icons button.on { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    .item-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .item-head strong { color: var(--ink); }
+
+    /* Barra de guardar */
+    .savebar {
+      position: fixed; left: 12px; right: 12px; bottom: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 35;
+      max-width: 736px; margin: 0 auto; background: var(--ink); color: #fff; border-radius: 22px; padding: 12px 12px 12px 20px;
+      display: flex; align-items: center; gap: 12px; box-shadow: 0 20px 50px -10px rgba(11,21,48,.5); animation: up .25s ease;
+    }
+    .savebar span { flex: 1; font-weight: 600; font-size: .95rem; }
+    .btn-save { background: var(--wa); color: #fff; border: 0; border-radius: 16px; padding: 14px 22px; font-weight: 800; font-size: 1rem; display: inline-flex; gap: 8px; align-items: center; }
+    .btn-save:disabled { opacity: .7; }
+    .btn-done { width: 100%; background: var(--ink); color: #fff; border: 0; border-radius: 18px; padding: 18px; font-weight: 800; font-size: 1.05rem; }
+
     .toast {
-      position: fixed; bottom: 24px; right: 24px;
-      padding: 14px 20px; border-radius: 10px; color: white;
-      font-weight: 600; font-size: 0.9rem;
-      display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      transform: translateY(80px); opacity: 0;
-      transition: all .3s ease; z-index: 9999; max-width: 380px;
+      position: fixed; top: 16px; left: 50%; transform: translate(-50%, -120px); z-index: 100; transition: transform .3s ease;
+      background: var(--ink); color: #fff; padding: 14px 20px; border-radius: 16px; font-weight: 600; max-width: calc(100% - 32px);
+      display: flex; gap: 10px; align-items: center; box-shadow: 0 16px 40px -10px rgba(11,21,48,.5);
     }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.success { background: #16a34a; }
-    .toast.error { background: #dc2626; }
-    .toast.info { background: #2563eb; }
+    .toast.show { transform: translate(-50%, 0); }
+    .toast.ok i { color: var(--lime); }
+    .toast.err { background: var(--red); }
 
-    @media (max-width: 600px) {
-      .form-grid { grid-template-columns: 1fr; }
-      .repair-admin-item { flex-wrap: wrap; }
-      .repair-price-input { width: 100%; text-align: left; }
-      .header-left h1 { display: none; }
+    .loading { text-align: center; padding: 60px 0; color: var(--muted); }
+    .demo-banner { background: var(--lime); color: var(--ink); text-align: center; font-weight: 700; font-size: .85rem; padding: 8px 12px; }
+
+    @media (max-width: 420px) {
+      .row2 { grid-template-columns: 1fr; }
+      .tile { min-height: 124px; padding: 16px; }
     }
   </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
-  <div class="login-card">
-    <img src="logo.jpeg" alt="Lubit"/>
-    <h1>Panel de administración</h1>
-    <p>Ingresá tu token de acceso de GitHub para editar el sitio.</p>
-    <input type="password" id="tokenInput" placeholder="Token de acceso"/>
-    <button class="btn-login" onclick="login()">
-      <i class="fa-solid fa-lock-open"></i> Entrar
-    </button>
-    <div class="login-error" id="loginError">
-      <i class="fa-solid fa-circle-xmark"></i> Token incorrecto. Verificá e intentá de nuevo.
+<!-- ================= PIN ================= -->
+<section id="pinScreen">
+  <div class="pin-card">
+    <img src="logo.jpeg" alt="Lubit" />
+    <h1>Mi página</h1>
+    <p>Ingresá tu PIN para editar la web</p>
+    <div class="pin-dots" id="pinDots"><span></span><span></span><span></span><span></span></div>
+    <div class="pin-msg" id="pinMsg" role="alert"></div>
+    <div class="keypad" id="keypad">
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+      <button class="k-muted" data-k="clear" aria-label="Borrar todo">Borrar</button>
+      <button data-k="0">0</button>
+      <button class="k-muted" data-k="back" aria-label="Borrar último"><i class="fa-solid fa-delete-left"></i></button>
     </div>
+    <a class="pin-back" href="./"><i class="fa-solid fa-arrow-left"></i> Volver a la página</a>
   </div>
-</div>
+</section>
 
-<!-- PANEL -->
-<div id="adminPanel">
-  <header class="admin-header">
-    <div class="header-left">
-      <img src="logo.jpeg" alt="Lubit"/>
-      <h1>Panel de administración</h1>
-    </div>
-    <div class="header-actions">
-      <button class="btn-save" id="btnGuardar" onclick="guardarCambios()">
-        <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
-      </button>
-      <button class="btn-logout" onclick="logout()">Salir</button>
-    </div>
+<!-- ================= PANEL ================= -->
+<section id="panel" hidden>
+  <div class="demo-banner" id="demoBanner" hidden>Modo prueba: los cambios no se guardan de verdad</div>
+  <header class="top">
+    <button class="back-btn" id="btnBack" hidden aria-label="Volver"><i class="fa-solid fa-arrow-left"></i></button>
+    <img src="logo.jpeg" alt="" id="topLogo" />
+    <div class="t-title" id="topTitle">Lubit<small>Panel de tu página</small></div>
+    <a href="./" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i> <span>Ver página</span></a>
+    <button class="t-btn" id="btnSalir" aria-label="Salir"><i class="fa-solid fa-right-from-bracket"></i></button>
   </header>
+  <main class="wrap" id="view"><div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Cargando…</div></main>
+</section>
 
-  <main class="admin-main">
-
-    <!-- CONTACTO -->
-    <div class="admin-section">
-      <h2><i class="fa-solid fa-address-card"></i> Información de contacto</h2>
-      <p class="section-desc">Estos datos se muestran en la sección "Contactanos" de la página.</p>
-      <div class="form-grid">
-        <div class="form-group full">
-          <label>Dirección</label>
-          <input type="text" id="adminDireccion" placeholder="Av. Corrientes 1234, CABA"/>
-        </div>
-        <div class="form-group">
-          <label>Número de WhatsApp (sin + ni espacios)</label>
-          <input type="text" id="adminWhatsapp" placeholder="5491112345678"/>
-        </div>
-        <div class="form-group">
-          <label>WhatsApp (texto a mostrar)</label>
-          <input type="text" id="adminWhatsappDisplay" placeholder="+54 11 1234-5678"/>
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="text" id="adminEmail" placeholder="info@lubit.com.ar"/>
-        </div>
-        <div class="form-group">
-          <label>Horario de atención</label>
-          <input type="text" id="adminHorario" placeholder="Lun–Sáb: 9:00 a 19:00"/>
-        </div>
-      </div>
-    </div>
-
-    <!-- REPARACIONES -->
-    <div class="admin-section">
-      <h2><i class="fa-solid fa-screwdriver-wrench"></i> Precios de reparaciones</h2>
-      <p class="section-desc">Editá el precio de cada servicio. Ej: "Desde $15.000", "Diagnóstico gratis".</p>
-      <div class="repair-admin-list" id="repairsAdminList"></div>
-    </div>
-
-    <!-- PRODUCTOS -->
-    <div class="admin-section">
-      <h2><i class="fa-solid fa-mobile-screen-button"></i> Productos</h2>
-      <p class="section-desc">
-        Agregá, editá o eliminá los celulares de la tienda. Para las fotos usá
-        <a href="https://imgur.com/upload" target="_blank">Imgur →</a>
-      </p>
-      <div class="brand-filters" id="brandFilters"></div>
-      <div class="productos-admin-list" id="productosAdminList"></div>
-      <button class="btn-add-producto" onclick="agregarProducto()">
-        <i class="fa-solid fa-plus"></i> Agregar producto
-      </button>
-    </div>
-
-    <!-- FAQ -->
-    <div class="admin-section">
-      <h2><i class="fa-solid fa-circle-question"></i> Preguntas frecuentes (FAQ)</h2>
-      <p class="section-desc">Editá, agregá o eliminá preguntas y respuestas.</p>
-      <div class="faq-admin-list" id="faqAdminList"></div>
-      <button class="btn-add-faq" onclick="agregarPreguntaFAQ()">
-        <i class="fa-solid fa-plus"></i> Agregar pregunta
-      </button>
-    </div>
-
-  </main>
+<div class="savebar" id="savebar" hidden>
+  <span><i class="fa-solid fa-circle-exclamation"></i> Tenés cambios sin guardar</span>
+  <button class="btn-save" id="btnGuardar"><i class="fa-solid fa-check"></i> Guardar</button>
 </div>
 
 <div class="toast" id="toast"></div>
+<input type="file" id="filePicker" accept="image/*" multiple hidden />
 
 <script>
-  const REPO = 'joedev10/lubit';
-  const FILE = 'datos.json';
-  const TOKEN_KEY = 'lubit_admin_token';
-  const MARCAS = ['samsung', 'apple', 'xiaomi', 'motorola', 'lg', 'otro'];
+// =========================================================
+// CONFIGURACIÓN
+// =========================================================
+// Dirección de la API. En Vercel es la misma página (/api/admin).
+// Si la página está en GitHub Pages, la API vive en el proyecto de Vercel.
+const API_VERCEL = 'https://lubit.vercel.app/api/admin';
+const API = location.hostname.endsWith('github.io') ? API_VERCEL : '/api/admin';
+const SESION_KEY = 'lubit_sesion';
+const PIN_LEN = 4;
 
-  let datosActuales = null;
+const MARCAS = [['samsung', 'Samsung'], ['apple', 'Apple'], ['motorola', 'Motorola'], ['xiaomi', 'Xiaomi'], ['otro', 'Otra']];
+const ESTADOS = ['Nuevo', 'Usado', 'Reacondicionado'];
+const ETIQUETAS = [['', 'Ninguna'], ['Hot', '🔥 Más vendido'], ['Oferta', 'Oferta']];
+const ICONOS = ['fa-solid fa-display', 'fa-solid fa-battery-full', 'fa-solid fa-plug', 'fa-solid fa-camera', 'fa-solid fa-droplet-slash',
+  'fa-solid fa-microchip', 'fa-solid fa-volume-high', 'fa-solid fa-microphone', 'fa-solid fa-wifi', 'fa-solid fa-lock-open',
+  'fa-solid fa-mobile-screen', 'fa-solid fa-screwdriver-wrench', 'fa-solid fa-hand-pointer', 'fa-solid fa-sim-card', 'fa-solid fa-tablet-screen-button'];
 
-  // ---- LOGIN ----
-  document.getElementById('tokenInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+let sesion = null;
+let datos = null;
+let repo = 'joedev10/lubit', rama = 'master';
+let sucio = false;
+let demo = false;
+let subiendo = 0;
 
-  function login() {
-    const token = document.getElementById('tokenInput').value.trim();
-    if (!token) return;
-    document.getElementById('loginError').style.display = 'none';
-    verificarToken(token);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function toast(msg, tipo = 'ok') {
+  const t = $('#toast');
+  const ic = { ok: 'fa-circle-check', err: 'fa-circle-xmark', info: 'fa-circle-info' }[tipo];
+  t.className = `toast ${tipo}`;
+  t.innerHTML = `<i class="fa-solid ${ic}"></i> ${esc(msg)}`;
+  requestAnimationFrame(() => t.classList.add('show'));
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), tipo === 'err' ? 5000 : 3000);
+}
+
+// =========================================================
+// API
+// =========================================================
+async function api(accion, extra = {}) {
+  if (demo) return apiDemo(accion, extra);
+  let res;
+  try {
+    res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion, sesion, ...extra }) });
+  } catch {
+    throw new Error('Sin conexión. Revisá internet y probá de nuevo.');
   }
+  // Probando en la compu sin la API: modo prueba
+  const esJson = (res.headers.get('content-type') || '').includes('application/json');
+  if (!esJson && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) { demo = true; return apiDemo(accion, extra); }
+  const data = await res.json().catch(() => ({}));
+  if (data.sesion === false) { cerrarSesion(); throw new Error(data.error); }
+  if (!res.ok) throw new Error(data.error || 'Algo salió mal');
+  return data;
+}
 
-  async function verificarToken(token) {
+async function apiDemo(accion, extra) {
+  await new Promise(r => setTimeout(r, 350));
+  if (accion === 'entrar') {
+    if (extra.pin !== '1234') throw new Error('PIN incorrecto');
+    return { sesion: 'demo', repo, rama };
+  }
+  if (accion === 'leer') { const r = await fetch('datos.json?t=' + Date.now()); return { datos: await r.json(), repo, rama }; }
+  if (accion === 'foto') return { ruta: extra.base64 };
+  return { ok: true };
+}
+
+// =========================================================
+// PIN
+// =========================================================
+let pin = '';
+function pintarPin() { [...$('#pinDots').children].forEach((d, i) => d.classList.toggle('on', i < pin.length)); }
+async function teclaPin(k) {
+  if (k === 'back') pin = pin.slice(0, -1);
+  else if (k === 'clear') pin = '';
+  else if (pin.length < PIN_LEN) pin += k;
+  $('#pinMsg').textContent = '';
+  pintarPin();
+  if (pin.length === PIN_LEN) {
+    $('#pinMsg').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
     try {
-      const res = await fetch(`https://api.github.com/repos/${REPO}`, {
-        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
-      });
-      if (!res.ok) throw new Error();
-      localStorage.setItem(TOKEN_KEY, token);
-      mostrarPanel();
-    } catch {
-      localStorage.removeItem(TOKEN_KEY);
-      document.getElementById('loginError').style.display = 'block';
+      const r = await api('entrar', { pin });
+      sesion = r.sesion;
+      try { localStorage.setItem(SESION_KEY, sesion); } catch {}
+      entrar();
+    } catch (e) {
+      $('#pinMsg').textContent = e.message;
+      $('#pinDots').classList.add('shake');
+      setTimeout(() => $('#pinDots').classList.remove('shake'), 400);
+      if (navigator.vibrate) navigator.vibrate(120);
     }
+    pin = ''; pintarPin();
+  }
+}
+$('#keypad').addEventListener('click', e => { const b = e.target.closest('button'); if (b) teclaPin(b.dataset.k); });
+document.addEventListener('keydown', e => {
+  if ($('#pinScreen').hidden) return;
+  if (/^\d$/.test(e.key)) teclaPin(e.key);
+  if (e.key === 'Backspace') teclaPin('back');
+});
+
+function cerrarSesion() {
+  try { localStorage.removeItem(SESION_KEY); } catch {}
+  sesion = null;
+  $('#panel').hidden = true; $('#savebar').hidden = true; $('#pinScreen').hidden = false;
+}
+$('#btnSalir').addEventListener('click', () => {
+  if (sucio && !confirm('Tenés cambios sin guardar. ¿Salir igual?')) return;
+  sucio = false; cerrarSesion();
+});
+
+async function entrar() {
+  $('#pinScreen').hidden = true;
+  $('#panel').hidden = false;
+  $('#demoBanner').hidden = !demo;
+  try {
+    const r = await api('leer');
+    datos = normalizar(r.datos);
+    repo = r.repo || repo; rama = r.rama || rama;
+    ir('inicio');
+  } catch (e) {
+    $('#view').innerHTML = `<div class="loading">${esc(e.message)}</div>`;
+  }
+}
+
+function normalizar(d) {
+  d = d || {};
+  d.negocio = Object.assign({ titulo: '', subtitulo: '', aviso: '', stats: [], instagram: '', facebook: '', pagos: '' }, d.negocio);
+  while (d.negocio.stats.length < 3) d.negocio.stats.push({ numero: '', texto: '' });
+  d.contacto = Object.assign({ direccion: '', localidad: '', whatsapp: '', email: '', horario: '' }, d.contacto);
+  d.reparaciones = d.reparaciones || [];
+  d.productos = (d.productos || []).map(p => Object.assign({ nombre: '', marca: 'samsung', condicion: '', almacenamiento: '', bateria: '', descripcion: '', precio: '', cuotas: '', badge: '', vendido: false, fotos: [] }, p));
+  d.testimonios = d.testimonios || [];
+  d.faq = d.faq || [];
+  return d;
+}
+
+// =========================================================
+// GUARDAR
+// =========================================================
+function marcarCambio() { sucio = true; $('#savebar').hidden = false; }
+async function guardar() {
+  if (subiendo) { toast('Esperá a que terminen de subir las fotos', 'info'); return; }
+  const btn = $('#btnGuardar');
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando';
+  try {
+    const limpio = JSON.parse(JSON.stringify(datos));
+    limpio.productos = limpio.productos.filter(p => p.nombre.trim());
+    limpio.faq = limpio.faq.filter(f => f.pregunta.trim());
+    limpio.testimonios = limpio.testimonios.filter(t => t.texto.trim());
+    limpio.reparaciones = limpio.reparaciones.filter(r => r.titulo.trim());
+    limpio.negocio.stats = limpio.negocio.stats.filter(s => s.numero.trim());
+    await api('guardar', { datos: limpio });
+    sucio = false; $('#savebar').hidden = true;
+    toast(demo ? 'Guardado (modo prueba)' : '¡Listo! En 1 minuto se ve en la página');
+  } catch (e) {
+    toast(e.message, 'err');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> Guardar';
+  }
+}
+$('#btnGuardar').addEventListener('click', guardar);
+window.addEventListener('beforeunload', e => { if (sucio) { e.preventDefault(); e.returnValue = ''; } });
+
+// =========================================================
+// NAVEGACIÓN ENTRE PANTALLAS
+// =========================================================
+const VISTAS = {
+  inicio: { titulo: 'Lubit', sub: 'Panel de tu página', render: vInicio },
+  celulares: { titulo: 'Celulares', sub: 'Lo que tenés en venta', render: vCelulares },
+  reparaciones: { titulo: 'Reparaciones', sub: 'Servicios y precios', render: vReparaciones },
+  portada: { titulo: 'Portada', sub: 'Textos principales', render: vPortada },
+  local: { titulo: 'Datos del local', sub: 'Dirección, horario, WhatsApp', render: vLocal },
+  opiniones: { titulo: 'Opiniones', sub: 'Lo que dicen tus clientes', render: vOpiniones },
+  preguntas: { titulo: 'Preguntas', sub: 'Preguntas frecuentes', render: vPreguntas }
+};
+let vistaActual = 'inicio';
+function ir(v) {
+  vistaActual = v;
+  const vista = VISTAS[v];
+  $('#topTitle').innerHTML = `${esc(vista.titulo)}<small>${esc(vista.sub)}</small>`;
+  $('#btnBack').hidden = v === 'inicio';
+  $('#topLogo').hidden = v !== 'inicio';
+  $('#view').innerHTML = '';
+  vista.render($('#view'));
+  window.scrollTo(0, 0);
+}
+$('#btnBack').addEventListener('click', () => ir('inicio'));
+
+// Helper: crea un campo de texto ligado a un objeto
+function campo({ label, obj, key, placeholder = '', hint = '', tipo = 'text', area = false, inputmode = '' }) {
+  const f = document.createElement('div');
+  f.className = 'field';
+  const id = 'f' + Math.random().toString(36).slice(2, 8);
+  f.innerHTML = `<label for="${id}">${esc(label)}</label>` +
+    (area ? `<textarea id="${id}" placeholder="${esc(placeholder)}"></textarea>`
+          : `<input id="${id}" type="${tipo}" placeholder="${esc(placeholder)}" ${inputmode ? `inputmode="${inputmode}"` : ''} />`) +
+    (hint ? `<small>${esc(hint)}</small>` : '');
+  const input = f.querySelector('input, textarea');
+  input.value = obj[key] ?? '';
+  input.addEventListener('input', () => { obj[key] = input.value; marcarCambio(); });
+  return f;
+}
+
+function chips(opciones, valor, onChange) {
+  const c = document.createElement('div');
+  c.className = 'chips';
+  opciones.forEach(([v, l]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = l; b.classList.toggle('on', v === valor);
+    b.onclick = () => { [...c.children].forEach(x => x.classList.toggle('on', x === b)); onChange(v); marcarCambio(); };
+    c.appendChild(b);
+  });
+  return c;
+}
+
+function bloque(label, el, hint) {
+  const f = document.createElement('div');
+  f.className = 'field';
+  f.innerHTML = `<span class="label">${esc(label)}</span>`;
+  f.appendChild(el);
+  if (hint) f.insertAdjacentHTML('beforeend', `<small>${esc(hint)}</small>`);
+  return f;
+}
+
+function fotoSrc(ruta) {
+  if (!ruta) return '';
+  if (/^(https?:|data:|blob:)/.test(ruta)) return ruta;
+  return ruta; // ruta relativa; si todavía no se publicó, se usa la copia de GitHub (ver onerror)
+}
+function fotoFallback(img, ruta) {
+  img.onerror = () => { img.onerror = null; img.src = `https://raw.githubusercontent.com/${repo}/${rama}/${ruta}`; };
+}
+
+// =========================================================
+// INICIO
+// =========================================================
+function vInicio(v) {
+  const disp = datos.productos.filter(p => !p.vendido && p.nombre).length;
+  v.innerHTML = `
+    <div class="hello"><h1>¡Hola! 👋</h1><p>¿Qué querés cambiar hoy?</p></div>
+    <div class="tiles">
+      <button class="tile main" data-v="celulares"><i class="fa-solid fa-mobile-screen-button"></i><div><strong>Celulares en venta</strong><span>${disp} disponible${disp === 1 ? '' : 's'} · Agregá fotos y precios</span></div></button>
+      <button class="tile" data-v="reparaciones"><i class="fa-solid fa-screwdriver-wrench"></i><div><strong>Reparaciones</strong><span>Precios de servicios</span></div></button>
+      <button class="tile" data-v="local"><i class="fa-solid fa-store"></i><div><strong>Datos del local</strong><span>Horario, dirección, WhatsApp</span></div></button>
+      <button class="tile" data-v="portada"><i class="fa-solid fa-wand-magic-sparkles"></i><div><strong>Portada</strong><span>Título y textos</span></div></button>
+      <button class="tile" data-v="opiniones"><i class="fa-solid fa-star"></i><div><strong>Opiniones</strong><span>Reseñas de clientes</span></div></button>
+      <button class="tile" data-v="preguntas"><i class="fa-solid fa-circle-question"></i><div><strong>Preguntas</strong><span>Preguntas frecuentes</span></div></button>
+    </div>`;
+  v.querySelectorAll('[data-v]').forEach(b => b.onclick = () => ir(b.dataset.v));
+}
+
+// =========================================================
+// CELULARES
+// =========================================================
+function vCelulares(v) {
+  const add = document.createElement('button');
+  add.className = 'add-btn big';
+  add.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar celular';
+  add.onclick = () => {
+    const p = normalizar({ productos: [{}] }).productos[0];
+    datos.productos.unshift(p);
+    marcarCambio();
+    editarProducto(p, true);
+  };
+  v.appendChild(add);
+
+  if (!datos.productos.length) {
+    v.insertAdjacentHTML('beforeend', '<p class="hint" style="text-align:center;padding:20px">Todavía no cargaste ningún celular.</p>');
   }
 
-  function mostrarPanel() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    cargarDatosActuales();
-  }
-
-  function logout() { localStorage.removeItem(TOKEN_KEY); location.reload(); }
-
-  // ---- CARGA DE DATOS ----
-  async function cargarDatosActuales() {
-    try {
-      const res = await fetch('datos.json?t=' + Date.now());
-      if (!res.ok) return;
-      datosActuales = await res.json();
-      rellenarFormulario(datosActuales);
-    } catch {
-      mostrarToast('No se pudo cargar datos.json', 'error');
-    }
-  }
-
-  function rellenarFormulario(datos) {
-    if (datos.contacto) {
-      setValue('adminDireccion', datos.contacto.direccion);
-      setValue('adminWhatsapp', datos.contacto.whatsapp);
-      setValue('adminWhatsappDisplay', datos.contacto.whatsapp_display);
-      setValue('adminEmail', datos.contacto.email);
-      setValue('adminHorario', datos.contacto.horario);
-    }
-    if (datos.reparaciones) renderRepairsAdmin(datos.reparaciones);
-    if (datos.productos) renderProductosAdmin(datos.productos);
-    if (datos.faq) renderFAQAdmin(datos.faq);
-  }
-
-  function setValue(id, val) {
-    const el = document.getElementById(id);
-    if (el && val !== undefined) el.value = val;
-  }
-
-  function capitalizar(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
-  function escapeHTML(str) {
-    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // ---- REPARACIONES ----
-  function renderRepairsAdmin(repairs) {
-    document.getElementById('repairsAdminList').innerHTML = repairs.map((r, i) => `
-      <div class="repair-admin-item">
-        <div class="repair-icon-box"><i class="${r.icono}"></i></div>
-        <div class="repair-info">
-          <strong>${r.titulo}</strong>
-          <small>${r.descripcion}</small>
-        </div>
-        <input class="repair-price-input" type="text"
-               id="repairPrice_${i}" value="${escapeHTML(r.precio)}" placeholder="Ej: Desde $15.000"/>
-      </div>
-    `).join('');
-  }
-
-  // ---- PRODUCTOS ----
-  function renderProductosAdmin(productos) {
-    const list = document.getElementById('productosAdminList');
-    list.innerHTML = '';
-    productos.forEach((p, i) => list.appendChild(crearCardProductoAdmin(p, i)));
-    actualizarFiltrosMarca();
-  }
-
-  function crearCardProductoAdmin(p, index) {
-    const card = document.createElement('div');
-    card.className = 'producto-admin-card';
-    card.dataset.marca = p.marca || '';
-
-    const marcaOpts = MARCAS.map(m =>
-      `<option value="${m}"${p.marca === m ? ' selected' : ''}>${capitalizar(m)}</option>`
-    ).join('');
-
-    const badgeOpts = ['', 'Hot', 'Oferta'].map(b =>
-      `<option value="${b}"${p.badge === b ? ' selected' : ''}>${b || 'Sin badge'}</option>`
-    ).join('');
-
-    card.innerHTML = `
-      <div class="producto-admin-header">
-        <span class="prod-header-nombre">${escapeHTML(p.nombre) || 'Nuevo producto'}</span>
-        <span class="marca-tag">${capitalizar(p.marca || '')}</span>
-        <button class="btn-remove-producto" onclick="eliminarProducto(this)">
-          <i class="fa-solid fa-trash"></i> Eliminar
-        </button>
-      </div>
-      <div class="producto-admin-body">
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Nombre del producto</label>
-            <input type="text" class="prod-nombre" value="${escapeHTML(p.nombre || '')}" placeholder="Ej: iPhone 15 Pro"/>
-          </div>
-          <div class="form-group">
-            <label>Marca</label>
-            <select class="prod-marca">${marcaOpts}</select>
-          </div>
-          <div class="form-group full">
-            <label>Descripción</label>
-            <input type="text" class="prod-descripcion" value="${escapeHTML(p.descripcion || '')}" placeholder="Ej: 256GB, 8GB RAM, color Negro"/>
-          </div>
-          <div class="form-group">
-            <label>Precio</label>
-            <input type="text" class="prod-precio" value="${escapeHTML(p.precio || '')}" placeholder="Ej: $850.000"/>
-          </div>
-          <div class="form-group">
-            <label>Cuotas</label>
-            <input type="text" class="prod-cuotas" value="${escapeHTML(p.cuotas || '')}" placeholder="Ej: 12 cuotas sin interés"/>
-          </div>
-          <div class="form-group">
-            <label>Badge / Etiqueta</label>
-            <select class="prod-badge">${badgeOpts}</select>
-          </div>
-        </div>
-        <div class="fotos-section">
-          <span class="fotos-section-label">
-            Fotos &nbsp;<a href="https://imgur.com/upload" target="_blank">Subir a Imgur →</a>
-          </span>
-          <div class="fotos-inputs-list" id="fotosAdmin_${index}"></div>
-        </div>
-      </div>
-    `;
-
-    // Actualizar header en tiempo real
-    card.querySelector('.prod-nombre').addEventListener('input', function () {
-      card.querySelector('.prod-header-nombre').textContent = this.value || 'Nuevo producto';
-    });
-    card.querySelector('.prod-marca').addEventListener('change', function () {
-      card.dataset.marca = this.value;
-      card.querySelector('.marca-tag').textContent = capitalizar(this.value);
-      actualizarFiltrosMarca();
-    });
-
-    // Fotos
-    const fotosContainer = card.querySelector('.fotos-inputs-list');
-    const fotos = p.fotos && p.fotos.length ? p.fotos : [''];
-    fotos.forEach(url => agregarFilaFoto(fotosContainer, url));
-
-    const btnAdd = document.createElement('button');
-    btnAdd.className = 'btn-add-foto';
-    btnAdd.type = 'button';
-    btnAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar foto';
-    btnAdd.onclick = () => {
-      if (fotosContainer.querySelectorAll('.foto-input-row').length < 8)
-        agregarFilaFoto(fotosContainer, '');
-      else mostrarToast('Máximo 8 fotos por producto', 'info');
-    };
-    fotosContainer.appendChild(btnAdd);
-
-    return card;
-  }
-
-  function agregarFilaFoto(list, url) {
-    const btnAdd = list.querySelector('.btn-add-foto');
-    const index = list.querySelectorAll('.foto-input-row').length + 1;
+  datos.productos.forEach(p => {
     const row = document.createElement('div');
-    row.className = 'foto-input-row';
-
-    const num = document.createElement('span');
-    num.className = 'foto-num';
-    num.textContent = index;
-
-    const preview = document.createElement('img');
-    preview.className = 'foto-preview';
-    preview.src = url || '';
-    preview.alt = '';
-    if (!url) preview.style.display = 'none';
-    preview.onerror = () => { preview.style.display = 'none'; };
-
-    const input = document.createElement('input');
-    input.type = 'url';
-    input.className = 'foto-url-input';
-    input.value = url || '';
-    input.placeholder = 'https://i.imgur.com/...';
-    input.addEventListener('input', function () {
-      if (this.value) {
-        preview.src = this.value;
-        preview.style.display = 'block';
-        preview.onerror = () => { preview.style.display = 'none'; };
-      } else {
-        preview.style.display = 'none';
-      }
-    });
-
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/*';
-    fileInput.style.display = 'none';
-
-    const btnUpload = document.createElement('button');
-    btnUpload.type = 'button';
-    btnUpload.className = 'btn-upload-foto';
-    btnUpload.title = 'Subir foto desde tu dispositivo o cámara';
-    btnUpload.innerHTML = '<i class="fa-solid fa-camera"></i>';
-    btnUpload.onclick = () => fileInput.click();
-    fileInput.addEventListener('change', () => {
-      if (fileInput.files[0]) uploadFotoAlRepo(fileInput.files[0], input, preview, btnUpload);
-      fileInput.value = '';
-    });
-
-    const btnRemove = document.createElement('button');
-    btnRemove.type = 'button';
-    btnRemove.className = 'btn-remove-foto';
-    btnRemove.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    btnRemove.title = 'Quitar foto';
-    btnRemove.onclick = () => {
-      row.remove();
-      list.querySelectorAll('.foto-num').forEach((n, i) => n.textContent = i + 1);
+    row.className = 'p-row' + (p.vendido ? ' sold' : '');
+    const foto = p.fotos[0];
+    row.innerHTML = `
+      <div class="p-thumb">${foto ? `<img alt="" />` : '<i class="fa-solid fa-mobile-screen-button"></i>'}</div>
+      <button class="p-info"><strong>${esc(p.nombre || 'Sin nombre')}</strong><span>${esc(p.precio || 'Sin precio')}</span><br><span class="p-edit"><i class="fa-solid fa-pen"></i> Editar</span></button>
+      <button class="switch ${p.vendido ? 'off' : ''}" aria-label="Disponible"><span class="track"></span><span class="sw-l">${p.vendido ? 'Vendido' : 'A la venta'}</span></button>`;
+    if (foto) { const img = row.querySelector('img'); fotoFallback(img, foto); img.src = fotoSrc(foto); }
+    row.querySelector('.p-info').onclick = () => editarProducto(p);
+    row.querySelector('.switch').onclick = e => {
+      p.vendido = !p.vendido;
+      const s = e.currentTarget;
+      s.classList.toggle('off', p.vendido);
+      s.querySelector('.sw-l').textContent = p.vendido ? 'Vendido' : 'A la venta';
+      row.classList.toggle('sold', p.vendido);
+      marcarCambio();
     };
+    v.appendChild(row);
+  });
+}
 
-    row.append(num, preview, btnUpload, fileInput, input, btnRemove);
-    if (btnAdd) list.insertBefore(row, btnAdd);
-    else list.appendChild(row);
-  }
+function editarProducto(p, nuevo = false) {
+  const sheet = document.createElement('div');
+  sheet.className = 'sheet';
+  sheet.innerHTML = `
+    <header class="top">
+      <button class="back-btn" data-close aria-label="Volver"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="t-title">${nuevo ? 'Nuevo celular' : 'Editar celular'}<small>Tocá "Guardar" cuando termines</small></div>
+    </header>
+    <div class="wrap"></div>
+    <div class="sheet-foot"><div class="wrap"><button class="btn-done" data-save><i class="fa-solid fa-check"></i> Guardar</button></div></div>`;
+  const w = sheet.querySelector('.wrap');
 
-  function eliminarProducto(btn) {
-    if (confirm('¿Eliminar este producto?')) {
-      btn.closest('.producto-admin-card').remove();
-      actualizarFiltrosMarca();
-    }
-  }
-
-  function agregarProducto() {
-    const list = document.getElementById('productosAdminList');
-    const index = list.querySelectorAll('.producto-admin-card').length;
-    const nuevo = { nombre: '', marca: 'samsung', descripcion: '', precio: '', cuotas: '', badge: '', fotos: [] };
-    const card = crearCardProductoAdmin(nuevo, index);
-    list.appendChild(card);
-    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(() => card.querySelector('.prod-nombre').focus(), 300);
-    actualizarFiltrosMarca();
-  }
-
-  function actualizarFiltrosMarca() {
-    const marcas = [...new Set(
-      [...document.querySelectorAll('.producto-admin-card')]
-        .map(c => c.dataset.marca).filter(Boolean)
-    )];
-    const container = document.getElementById('brandFilters');
-    if (!marcas.length) { container.innerHTML = ''; return; }
-    container.innerHTML =
-      `<button class="brand-btn active" data-brand="all" onclick="filtrarMarca(this)">Todos</button>` +
-      marcas.map(m => `<button class="brand-btn" data-brand="${m}" onclick="filtrarMarca(this)">${capitalizar(m)}</button>`).join('');
-  }
-
-  function filtrarMarca(btn) {
-    document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const marca = btn.dataset.brand;
-    document.querySelectorAll('.producto-admin-card').forEach(card => {
-      card.classList.toggle('hidden', marca !== 'all' && card.dataset.marca !== marca);
+  // Fotos
+  const fotosCard = document.createElement('div');
+  fotosCard.className = 'card';
+  fotosCard.innerHTML = `<div class="item-head"><strong>Fotos</strong><span class="hint">La primera es la de portada</span></div><div class="photos"></div>`;
+  const grid = fotosCard.querySelector('.photos');
+  const pintarFotos = () => {
+    grid.innerHTML = '';
+    p.fotos.forEach((ruta, i) => {
+      const ph = document.createElement('div');
+      ph.className = 'ph';
+      ph.innerHTML = `<img alt="Foto ${i + 1}" />
+        <button class="ph-x" aria-label="Quitar foto"><i class="fa-solid fa-xmark"></i></button>
+        ${i === 0 ? '<span class="ph-cover">Portada</span>' : '<button class="ph-star" aria-label="Usar de portada"><i class="fa-solid fa-star"></i></button>'}`;
+      const img = ph.querySelector('img'); fotoFallback(img, ruta); img.src = fotoSrc(ruta);
+      ph.querySelector('.ph-x').onclick = () => { if (confirm('¿Quitar esta foto?')) { p.fotos.splice(i, 1); marcarCambio(); pintarFotos(); } };
+      const star = ph.querySelector('.ph-star');
+      if (star) star.onclick = () => { p.fotos.unshift(p.fotos.splice(i, 1)[0]); marcarCambio(); pintarFotos(); };
+      grid.appendChild(ph);
     });
-  }
+    const add = document.createElement('button');
+    add.className = 'ph-add'; add.type = 'button';
+    add.innerHTML = '<i class="fa-solid fa-camera"></i> Agregar fotos';
+    add.onclick = () => elegirFotos(p, grid, pintarFotos);
+    grid.appendChild(add);
+  };
+  pintarFotos();
+  w.appendChild(fotosCard);
 
-  function recopilarProductos() {
-    return [...document.querySelectorAll('.producto-admin-card')].map(card => ({
-      nombre: card.querySelector('.prod-nombre').value.trim(),
-      marca: card.querySelector('.prod-marca').value,
-      descripcion: card.querySelector('.prod-descripcion').value.trim(),
-      precio: card.querySelector('.prod-precio').value.trim(),
-      cuotas: card.querySelector('.prod-cuotas').value.trim(),
-      badge: card.querySelector('.prod-badge').value,
-      fotos: [...card.querySelectorAll('.foto-url-input')].map(i => i.value.trim()).filter(Boolean)
-    })).filter(p => p.nombre);
-  }
+  const datosCard = document.createElement('div');
+  datosCard.className = 'card';
+  datosCard.appendChild(campo({ label: 'Nombre del celular', obj: p, key: 'nombre', placeholder: 'Ej: Samsung Galaxy A55' }));
+  datosCard.appendChild(bloque('Marca', chips(MARCAS, p.marca, v => p.marca = v)));
+  datosCard.appendChild(bloque('Estado', chips([['', 'No mostrar'], ...ESTADOS.map(e => [e, e])], p.condicion, v => p.condicion = v)));
+  const r2 = document.createElement('div'); r2.className = 'row2';
+  r2.appendChild(campo({ label: 'Memoria', obj: p, key: 'almacenamiento', placeholder: 'Ej: 128 GB' }));
+  r2.appendChild(campo({ label: 'Batería', obj: p, key: 'bateria', placeholder: 'Ej: 89%', hint: 'Útil en usados' }));
+  datosCard.appendChild(r2);
+  w.appendChild(datosCard);
 
-  // ---- FAQ ----
-  function renderFAQAdmin(faq) {
-    const list = document.getElementById('faqAdminList');
-    list.innerHTML = '';
-    faq.forEach((item, i) => list.appendChild(crearItemFAQ(item.pregunta, item.respuesta, i)));
-  }
+  const precioCard = document.createElement('div');
+  precioCard.className = 'card';
+  precioCard.appendChild(campo({ label: 'Precio', obj: p, key: 'precio', placeholder: 'Ej: $450.000 o 700 USD', hint: 'Si lo dejás vacío dice "Consultá el precio"' }));
+  precioCard.appendChild(campo({ label: 'Cuotas (opcional)', obj: p, key: 'cuotas', placeholder: 'Ej: 6 cuotas sin interés' }));
+  precioCard.appendChild(bloque('Etiqueta', chips(ETIQUETAS, p.badge, v => p.badge = v)));
+  w.appendChild(precioCard);
 
-  function crearItemFAQ(pregunta, respuesta, index) {
-    const item = document.createElement('div');
-    item.className = 'faq-admin-item';
-    item.innerHTML = `
-      <div class="faq-admin-header">
-        <span>Pregunta ${index + 1}</span>
-        <button class="btn-remove-faq" onclick="eliminarFAQ(this)">
-          <i class="fa-solid fa-trash"></i> Eliminar
-        </button>
-      </div>
-      <div class="faq-admin-body">
-        <input type="text" class="faq-pregunta-input" placeholder="¿Pregunta?" value="${escapeHTML(pregunta)}"/>
-        <textarea class="faq-respuesta-input" placeholder="Respuesta...">${escapeHTML(respuesta)}</textarea>
-      </div>
-    `;
-    return item;
-  }
+  const descCard = document.createElement('div');
+  descCard.className = 'card';
+  descCard.appendChild(campo({ label: 'Descripción (opcional)', obj: p, key: 'descripcion', placeholder: 'Ej: Color negro, con caja y cargador', area: true }));
+  w.appendChild(descCard);
 
-  function agregarPreguntaFAQ() {
-    const list = document.getElementById('faqAdminList');
-    const index = list.querySelectorAll('.faq-admin-item').length;
-    list.appendChild(crearItemFAQ('', '', index));
-    list.querySelectorAll('.faq-admin-header span').forEach((s, i) => s.textContent = `Pregunta ${i + 1}`);
-    list.lastElementChild.querySelector('.faq-pregunta-input').focus();
-  }
+  const del = document.createElement('button');
+  del.className = 'del-btn';
+  del.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar este celular';
+  del.onclick = () => {
+    if (!confirm('¿Eliminar este celular de la página?')) return;
+    datos.productos.splice(datos.productos.indexOf(p), 1);
+    marcarCambio(); cerrar();
+  };
+  w.appendChild(del);
 
-  function eliminarFAQ(btn) {
-    btn.closest('.faq-admin-item').remove();
-    document.querySelectorAll('#faqAdminList .faq-admin-header span').forEach((s, i) => s.textContent = `Pregunta ${i + 1}`);
-  }
+  const cerrar = () => {
+    if (nuevo && !p.nombre.trim() && !p.fotos.length) datos.productos.splice(datos.productos.indexOf(p), 1);
+    sheet.remove(); document.body.style.overflow = '';
+    ir('celulares');
+  };
+  sheet.querySelectorAll('[data-close]').forEach(b => b.onclick = cerrar);
+  sheet.querySelector('[data-save]').onclick = async () => {
+    if (subiendo) { toast('Esperá a que terminen de subir las fotos', 'info'); return; }
+    if (!p.nombre.trim()) { toast('Poné el nombre del celular', 'info'); sheet.querySelector('input')?.focus(); return; }
+    cerrar();
+    if (sucio) await guardar();
+  };
+  document.body.appendChild(sheet);
+  document.body.style.overflow = 'hidden';
+  if (nuevo) setTimeout(() => sheet.querySelector('input')?.focus(), 300);
+}
 
-  function recopilarFAQ() {
-    return [...document.querySelectorAll('.faq-admin-item')].map(item => ({
-      pregunta: item.querySelector('.faq-pregunta-input').value.trim(),
-      respuesta: item.querySelector('.faq-respuesta-input').value.trim()
-    })).filter(item => item.pregunta);
-  }
-
-  // ---- SUBIR FOTO AL REPO ----
-  async function uploadFotoAlRepo(file, urlInput, preview, btnUpload) {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) { mostrarToast('No hay sesión activa', 'error'); return; }
-
-    btnUpload.disabled = true;
-    btnUpload.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-    urlInput.disabled = true;
-    mostrarToast('Subiendo foto...', 'info');
-
-    // Preview local inmediata
-    const localUrl = URL.createObjectURL(file);
-    preview.src = localUrl;
-    preview.style.display = 'block';
-
-    try {
-      const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result.split(',')[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-
-      const ext = (file.name.split('.').pop() || 'jpg').replace(/[^a-z0-9]/gi, '').toLowerCase();
-      const filename = `imagenes/${Date.now()}${Math.random().toString(36).slice(2,6)}.${ext}`;
-
-      const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message: 'Admin: subir imagen de producto', content: base64 })
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || 'Error al subir');
+// ---------- Subida de fotos ----------
+function elegirFotos(p, grid, repintar) {
+  const picker = $('#filePicker');
+  picker.value = '';
+  picker.onchange = async () => {
+    const files = [...picker.files].slice(0, 10 - p.fotos.length);
+    if (picker.files.length > files.length) toast('Máximo 10 fotos por celular', 'info');
+    for (const file of files) {
+      // Tarjeta "subiendo" mientras tanto
+      const ph = document.createElement('div');
+      ph.className = 'ph';
+      const local = URL.createObjectURL(file);
+      ph.innerHTML = `<img src="${local}" alt="" /><div class="ph-load"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
+      grid.insertBefore(ph, grid.lastElementChild);
+      subiendo++;
+      try {
+        const { base64, tipo } = await comprimir(file);
+        const { ruta } = await api('foto', { base64, tipo });
+        p.fotos.push(ruta);
+        marcarCambio();
+      } catch (e) {
+        toast('No se pudo subir una foto: ' + e.message, 'err');
+      } finally {
+        subiendo--;
       }
-
-      urlInput.value = `https://raw.githubusercontent.com/${REPO}/master/${filename}`;
-      mostrarToast('¡Foto subida con éxito!', 'success');
-
-    } catch (e) {
-      preview.style.display = 'none';
-      preview.src = '';
-      mostrarToast('Error al subir: ' + e.message, 'error');
-    } finally {
-      btnUpload.disabled = false;
-      btnUpload.innerHTML = '<i class="fa-solid fa-camera"></i>';
-      urlInput.disabled = false;
     }
+    repintar();
+    if (files.length) toast(files.length === 1 ? 'Foto agregada' : `${files.length} fotos agregadas`);
+  };
+  picker.click();
+}
+
+// Achica la foto del celular (pueden pesar 5-10 MB) a algo liviano para la web
+async function comprimir(file, max = 1600, calidad = 0.82) {
+  const bitmap = await (window.createImageBitmap
+    ? createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null)
+    : null);
+  let img = bitmap;
+  if (!img) {
+    img = await new Promise((ok, err) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => err(new Error('Formato de imagen no soportado')); i.src = URL.createObjectURL(file); });
   }
+  const w = img.width, h = img.height;
+  const escala = Math.min(1, max / Math.max(w, h));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(w * escala); canvas.height = Math.round(h * escala);
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const dataUrl = canvas.toDataURL('image/jpeg', calidad);
+  return { base64: dataUrl, tipo: 'image/jpeg' };
+}
 
-  // ---- GUARDAR ----
-  async function guardarCambios() {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) { logout(); return; }
-    if (!datosActuales) { mostrarToast('Esperá a que carguen los datos', 'error'); return; }
+// =========================================================
+// REPARACIONES
+// =========================================================
+function vReparaciones(v) {
+  v.innerHTML = `<div class="view-head"><h2>Reparaciones</h2><p>Tocá el precio para cambiarlo. Podés poner "Desde $20.000" o "Consultar".</p></div>`;
+  datos.reparaciones.forEach((r, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<div class="item-head"><strong><i class="${esc(r.icono)}" style="color:var(--blue)"></i> ${esc(r.titulo || 'Nuevo servicio')}</strong></div>`;
+    card.appendChild(campo({ label: 'Precio', obj: r, key: 'precio', placeholder: 'Ej: Desde $20.000' }));
+    const mas = document.createElement('details');
+    mas.innerHTML = '<summary class="hint" style="cursor:pointer;padding:6px 0;font-weight:700;color:var(--blue)">Cambiar nombre, descripción o ícono</summary>';
+    const inner = document.createElement('div'); inner.style.paddingTop = '12px';
+    inner.appendChild(campo({ label: 'Nombre del servicio', obj: r, key: 'titulo' }));
+    inner.appendChild(campo({ label: 'Descripción', obj: r, key: 'descripcion', area: true }));
+    const icons = document.createElement('div'); icons.className = 'icons';
+    ICONOS.forEach(ic => {
+      const b = document.createElement('button'); b.type = 'button'; b.innerHTML = `<i class="${ic}"></i>`;
+      b.classList.toggle('on', ic === r.icono);
+      b.onclick = () => { r.icono = ic; [...icons.children].forEach(x => x.classList.toggle('on', x === b)); card.querySelector('.item-head i').className = ic; marcarCambio(); };
+      icons.appendChild(b);
+    });
+    inner.appendChild(bloque('Ícono', icons));
+    const del = document.createElement('button'); del.className = 'del-btn'; del.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar servicio';
+    del.onclick = () => { if (confirm('¿Eliminar este servicio?')) { datos.reparaciones.splice(i, 1); marcarCambio(); ir('reparaciones'); } };
+    inner.appendChild(del);
+    mas.appendChild(inner);
+    if (!r.titulo) mas.open = true;
+    card.appendChild(mas);
+    v.appendChild(card);
+  });
+  const add = document.createElement('button'); add.className = 'add-btn'; add.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar servicio';
+  add.onclick = () => { datos.reparaciones.push({ icono: 'fa-solid fa-screwdriver-wrench', titulo: '', descripcion: '', precio: '' }); marcarCambio(); ir('reparaciones'); window.scrollTo(0, document.body.scrollHeight); };
+  v.appendChild(add);
+}
 
-    const btn = document.getElementById('btnGuardar');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+// =========================================================
+// PORTADA
+// =========================================================
+function vPortada(v) {
+  const n = datos.negocio;
+  v.innerHTML = `<div class="view-head"><h2>Portada</h2><p>Lo primero que ve la gente al entrar.</p></div>`;
+  const c1 = document.createElement('div'); c1.className = 'card';
+  c1.appendChild(campo({ label: 'Título grande', obj: n, key: 'titulo', placeholder: 'Tu celular, como nuevo. En el día.', hint: 'La última frase sale resaltada en azul' }));
+  c1.appendChild(campo({ label: 'Texto debajo del título', obj: n, key: 'subtitulo', area: true }));
+  c1.appendChild(campo({ label: 'Aviso de arriba de todo', obj: n, key: 'aviso', placeholder: 'Ej: ¡20% off en baterías esta semana!', hint: 'Ideal para promos. Dejalo vacío para ocultarlo.' }));
+  v.appendChild(c1);
 
-    try {
-      const nuevoDatos = {
-        contacto: {
-          direccion: getVal('adminDireccion'),
-          whatsapp: getVal('adminWhatsapp'),
-          whatsapp_display: getVal('adminWhatsappDisplay'),
-          email: getVal('adminEmail'),
-          horario: getVal('adminHorario')
-        },
-        reparaciones: datosActuales.reparaciones.map((r, i) => ({
-          ...r,
-          precio: getVal(`repairPrice_${i}`) || r.precio
-        })),
-        productos: recopilarProductos(),
-        faq: recopilarFAQ()
-      };
+  const c2 = document.createElement('div'); c2.className = 'card';
+  c2.innerHTML = '<div class="item-head"><strong>Números destacados</strong></div>';
+  n.stats.forEach((s, i) => {
+    const r = document.createElement('div'); r.className = 'row2';
+    r.appendChild(campo({ label: `Número ${i + 1}`, obj: s, key: 'numero', placeholder: '+10' }));
+    r.appendChild(campo({ label: 'Texto', obj: s, key: 'texto', placeholder: 'años de experiencia' }));
+    c2.appendChild(r);
+  });
+  v.appendChild(c2);
 
-      const getRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
-        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
-      });
-      if (!getRes.ok) throw new Error('No se pudo acceder al archivo en GitHub');
-      const sha = (await getRes.json()).sha;
+  const c3 = document.createElement('div'); c3.className = 'card';
+  c3.appendChild(campo({ label: 'Formas de pago', obj: n, key: 'pagos', placeholder: 'Efectivo · Transferencia · Tarjetas' }));
+  v.appendChild(c3);
+}
 
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify(nuevoDatos, null, 2))));
-      const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message: 'Admin: actualizar datos del sitio', content, sha })
-      });
+// =========================================================
+// DATOS DEL LOCAL
+// =========================================================
+function vLocal(v) {
+  const c = datos.contacto, n = datos.negocio;
+  v.innerHTML = `<div class="view-head"><h2>Datos del local</h2><p>Se usan en toda la página y en el mapa.</p></div>`;
+  const c1 = document.createElement('div'); c1.className = 'card';
+  c1.appendChild(campo({ label: 'Número de WhatsApp', obj: c, key: 'whatsapp', placeholder: '11 3170-6948', tipo: 'tel', inputmode: 'tel', hint: 'Con código de área, sin 0 ni 15. Ej: 11 3170-6948' }));
+  c1.appendChild(campo({ label: 'Horario', obj: c, key: 'horario', placeholder: 'Lun–Sáb: 10:00 a 19:00 hs', hint: 'Escribilo así para que la página muestre "Abierto ahora"' }));
+  v.appendChild(c1);
+  const c2 = document.createElement('div'); c2.className = 'card';
+  c2.appendChild(campo({ label: 'Dirección', obj: c, key: 'direccion', placeholder: 'Calle 147 N° 1395' }));
+  c2.appendChild(campo({ label: 'Localidad', obj: c, key: 'localidad', placeholder: 'Berazategui, Buenos Aires' }));
+  v.appendChild(c2);
+  const c3 = document.createElement('div'); c3.className = 'card';
+  c3.appendChild(campo({ label: 'Email (opcional)', obj: c, key: 'email', tipo: 'email', placeholder: 'info@lubit.com.ar' }));
+  c3.appendChild(campo({ label: 'Link de Instagram', obj: n, key: 'instagram', tipo: 'url', placeholder: 'https://instagram.com/…' }));
+  c3.appendChild(campo({ label: 'Link de Facebook', obj: n, key: 'facebook', tipo: 'url', placeholder: 'https://facebook.com/…' }));
+  v.appendChild(c3);
+}
 
-      if (!putRes.ok) {
-        const err = await putRes.json();
-        throw new Error(err.message || 'Error al guardar');
-      }
+// =========================================================
+// LISTAS SIMPLES: OPINIONES Y PREGUNTAS
+// =========================================================
+function lista(v, { arr, titulo, nuevo, campos, etiqueta, vista, textoAgregar }) {
+  v.innerHTML = `<div class="view-head"><h2>${esc(titulo)}</h2></div>`;
+  arr.forEach((item, i) => {
+    const card = document.createElement('div'); card.className = 'card';
+    card.innerHTML = `<div class="item-head"><strong>${esc(etiqueta)} ${i + 1}</strong></div>`;
+    const del = document.createElement('button'); del.className = 'del-btn'; del.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar';
+    del.onclick = () => { if (confirm('¿Eliminar?')) { arr.splice(i, 1); marcarCambio(); ir(vista); } };
+    card.querySelector('.item-head').appendChild(del);
+    campos.forEach(cf => card.appendChild(campo({ ...cf, obj: item })));
+    v.appendChild(card);
+  });
+  const add = document.createElement('button'); add.className = 'add-btn'; add.innerHTML = `<i class="fa-solid fa-plus"></i> ${esc(textoAgregar)}`;
+  add.onclick = () => { arr.push(nuevo()); marcarCambio(); ir(vista); window.scrollTo(0, document.body.scrollHeight); };
+  v.appendChild(add);
+}
 
-      datosActuales = nuevoDatos;
-      mostrarToast('¡Guardado! Los cambios se verán en ~1 minuto.', 'success');
+function vOpiniones(v) {
+  lista(v, {
+    arr: datos.testimonios, titulo: 'Opiniones de clientes', etiqueta: 'Opinión', vista: 'opiniones', textoAgregar: 'Agregar opinión',
+    nuevo: () => ({ nombre: '', detalle: '', texto: '' }),
+    campos: [
+      { label: 'Qué dijo', key: 'texto', area: true, placeholder: 'Copiá acá una reseña de Google o un mensaje de un cliente' },
+      { label: 'Nombre', key: 'nombre', placeholder: 'Ej: María G.' },
+      { label: 'Detalle', key: 'detalle', placeholder: 'Ej: iPhone 13 · Pantalla' }
+    ]
+  });
+  v.querySelector('.view-head').insertAdjacentHTML('beforeend', '<p>Tip: usá reseñas reales de Google o de WhatsApp, generan más confianza.</p>');
+}
 
-    } catch (e) {
-      mostrarToast('Error: ' + e.message, 'error');
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar cambios';
-    }
-  }
+function vPreguntas(v) {
+  lista(v, {
+    arr: datos.faq, titulo: 'Preguntas frecuentes', etiqueta: 'Pregunta', vista: 'preguntas', textoAgregar: 'Agregar pregunta',
+    nuevo: () => ({ pregunta: '', respuesta: '' }),
+    campos: [
+      { label: 'Pregunta', key: 'pregunta', placeholder: '¿…?' },
+      { label: 'Respuesta', key: 'respuesta', area: true }
+    ]
+  });
+}
 
-  function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
-
-  // ---- TOAST ----
-  function mostrarToast(msg, tipo = 'info') {
-    const toast = document.getElementById('toast');
-    const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
-    toast.innerHTML = `<i class="fa-solid ${icons[tipo]}"></i> ${msg}`;
-    toast.className = `toast ${tipo} show`;
-    clearTimeout(toast._t);
-    toast._t = setTimeout(() => toast.classList.remove('show'), 4500);
-  }
-
-  // ---- INIT ----
-  const savedToken = localStorage.getItem(TOKEN_KEY);
-  if (savedToken) verificarToken(savedToken);
+// =========================================================
+// INICIO: si ya entró antes en este celular, no pide PIN de nuevo
+// =========================================================
+try { sesion = localStorage.getItem(SESION_KEY); } catch {}
+if (sesion) {
+  if (sesion === 'demo') demo = true;
+  entrar();
+}
 </script>
 </body>
 </html>
