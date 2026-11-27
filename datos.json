@@ -1,10 +1,33 @@
 {
+  "negocio": {
+    "titulo": "Tu celular, como nuevo. En el día.",
+    "subtitulo": "Reparamos todas las marcas con garantía escrita y vendemos equipos revisados, listos para usar. Diagnóstico sin cargo.",
+    "aviso": "Diagnóstico gratis · Garantía escrita de 90 días",
+    "stats": [
+      {
+        "numero": "+10",
+        "texto": "años de experiencia"
+      },
+      {
+        "numero": "+5.000",
+        "texto": "clientes atendidos"
+      },
+      {
+        "numero": "90 días",
+        "texto": "de garantía escrita"
+      }
+    ],
+    "instagram": "https://www.instagram.com/lucastecst?igsh=MWdkcGZoenJ5ejdzcQ==",
+    "facebook": "https://www.facebook.com/share/1ATfw4qwnU/?mibextid=wwXIfr",
+    "pagos": "Efectivo · Transferencia · Débito · Crédito hasta 12 cuotas"
+  },
   "contacto": {
     "direccion": "Calle 147 numero 1395 casi esquina 14 (timbre F)",
+    "localidad": "Berazategui, Buenos Aires",
     "whatsapp": "1131706948",
-    "whatsapp_display": "1131706948",
     "email": "info@lubit.com.ar",
-    "horario": "Lun–Sáb: 10:00 a 19:00 hs"
+    "horario": "Lun–Sáb: 10:00 a 19:00 hs",
+    "whatsapp_display": "1131706948"
   },
   "reparaciones": [
     {
@@ -17,13 +40,13 @@
       "icono": "fa-solid fa-battery-full",
       "titulo": "Cambio de batería",
       "descripcion": "Recuperá la autonomía de tu equipo con batería nueva.",
-      "precio": "Desde $35000"
+      "precio": "Desde $35.000"
     },
     {
       "icono": "fa-solid fa-plug",
       "titulo": "Conector de carga",
       "descripcion": "Solucionamos problemas de carga lenta o intermitente.",
-      "precio": "Desde $25000"
+      "precio": "Desde $25.000"
     },
     {
       "icono": "fa-solid fa-camera",
@@ -48,10 +71,14 @@
     {
       "nombre": "Galaxy S24 FE",
       "marca": "samsung",
+      "condicion": "",
+      "almacenamiento": "",
+      "bateria": "",
       "descripcion": "",
       "precio": "",
       "cuotas": "",
       "badge": "",
+      "vendido": false,
       "fotos": [
         "https://i.imgur.com/BKSiCJU.jpeg",
         "https://i.imgur.com/9ZUU3Fx.jpeg"
@@ -60,10 +87,14 @@
     {
       "nombre": "Iphone 15 Plus",
       "marca": "apple",
+      "condicion": "",
+      "almacenamiento": "256 GB",
+      "bateria": "",
       "descripcion": "256 gb de almacenamiento interno",
       "precio": "570 usd",
       "cuotas": "12 cuotas sin intereses dependiendo la tarjeta",
       "badge": "",
+      "vendido": false,
       "fotos": [
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778561330251g72j.jpeg",
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/17785613641053j91.jpeg",
@@ -74,16 +105,37 @@
     {
       "nombre": "13 pro max",
       "marca": "apple",
+      "condicion": "",
+      "almacenamiento": "256 GB",
+      "bateria": "",
       "descripcion": "256 Gb de almacenamiento",
       "precio": "540Usd",
       "cuotas": "",
       "badge": "",
+      "vendido": false,
       "fotos": [
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778710233848tmu1.jpeg",
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778710251423o9be.jpeg",
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/1778710272932xvph.jpeg",
         "https://raw.githubusercontent.com/joedev10/lubit/master/imagenes/17787102876347svy.jpeg"
       ]
+    }
+  ],
+  "testimonios": [
+    {
+      "nombre": "María González",
+      "detalle": "iPhone 13 · Pantalla",
+      "texto": "Me cambiaron la pantalla del iPhone en menos de una hora y quedó impecable. El precio fue justo y la atención excelente."
+    },
+    {
+      "nombre": "Lucas Pérez",
+      "detalle": "Compra de celular",
+      "texto": "Compré un Samsung en cuotas, el proceso fue muy fácil y me lo entregaron al día siguiente."
+    },
+    {
+      "nombre": "Sofía Ramírez",
+      "detalle": "Daño por agua",
+      "texto": "Mi celular cayó al agua y pensé que lo había perdido. En Lubit lo rescataron en el día. ¡Recomendadísimos!"
     }
   ],
   "faq": [
